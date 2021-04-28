@@ -1,4 +1,5 @@
 # 1. git起步
+<!-- FIXME: add something here -->
 
 # 2. git基础
 
@@ -185,7 +186,33 @@ git log
     v1.3
     v1.4
     ```
-    -m选项指定了一条将会存储在标签中的信息。
+    -m选项指定了一条将会存储在标签中的信息。若在明命令中没有加上该参数，git则会自动打开编辑器让你输入信息。  
+
+    使用`git show`命令可以看到表亲啊信息和与之相对应的提交信息:  
+
+    ```bash
+    $ git show v1.4
+    tag v1.4
+    Tagger: Ben Straub <ben@straub.cc>
+    Date:   Sat May 3 20:19:12 2014 -0700
+
+    my version 1.4
+
+    commit ca82a6dff817ec66f44342007202690a93763949
+    Author: Scott Chacon <schacon@gee-mail.com>
+    Date:   Mon Mar 17 21:52:11 2008 -0700
+
+        changed the version number
+    ```
+
+  - 后期打标签  
+    ```bash
+    git tag -a <tag_name> <部分校验和>
+    ```  
+  - 共享标签
+<!-- TODO: 2021-04-28跟新于此 -->
+    ```bash
+    ```
 ## 2.7. git分支的创建与合并
 <!-- TODO: git 分支管理 -->
 ### 2.7.1. git的几种合并策略
