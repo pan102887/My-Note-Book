@@ -1,3 +1,15 @@
+- [1. git起步](#1-git起步)
+- [2. git基础](#2-git基础)
+  - [2.1. git仓库的初始化](#21-git仓库的初始化)
+  - [2.2. 记录每次更新到仓库](#22-记录每次更新到仓库)
+  - [2.3. 查看提交历史](#23-查看提交历史)
+  - [2.4. 撤销操作](#24-撤销操作)
+  - [2.5. 远程仓库](#25-远程仓库)
+  - [2.6. 打标签](#26-打标签)
+  - [2.7. git别名](#27-git别名)
+- [3. git 分支](#3-git-分支)
+  - [3.1. git分支的创建与合并](#31-git分支的创建与合并)
+    - [3.1.1. git的几种合并策略](#311-git的几种合并策略)
 # 1. git起步
 <!-- FIXME: add something here -->
 
@@ -205,17 +217,84 @@ git log
         changed the version number
     ```
 
-  - 后期打标签  
-    ```bash
-    git tag -a <tag_name> <部分校验和>
-    ```  
-  - 共享标签
-<!-- TODO: 2021-04-28跟新于此 -->
-    ```bash
-    ```
-## 2.7. git分支的创建与合并
+- 后期打标签  
+  ```bash
+  git tag -a <tag_name> <部分校验和>
+  ```  
+- 共享标签
+
+  在默认情况下，git push命令并不会传送标签到远程仓库服务器上。在创建完标签后必须显示地推送标签到共享服务器上。这个过程就像是共享远程分支一样，可以运行一下命令  
+  ```bash
+  git push origin <tag_name>
+  ```
+
+  具体例子如下
+
+  ```bash
+  $ git push origin v1.5
+  Counting objects: 14, done.
+  Delta compression using up to 8 threads.
+  Compressing objects: 100% (12/12), done.
+  Writing objects: 100% (14/14), 2.05 KiB | 0 bytes/s,    done.
+  Total 14 (delta 3), reused 0 (delta 0)
+  To git@github.com:schacon/simplegit.git
+   * [new tag]         v1.5 -> v1.5
+  ```  
+
+  若一次要推送很多标签，可以使用带有--tags选项地`git push`命令。这将会把所有不在远程仓库服务器上地标签全部上传到服务器中。  
+
+- 删除标签  
+
+  删除本地仓库中地标签  
+  ```bash
+  git tag -d <tag_name>
+  ```
+
+  若要同步到远程仓库中：
+  - 方法一
+  ```bash
+  git push <remote> :refs/tags/<tag_name>:
+  ```
+
+  该操作的含义是讲冒号前面的空值推送到远程标签名（使用控制替换远程仓库中的标签名），从而高效地删除它。  
+
+  - 方法二
+  ```bash
+  git push <remote> --delete <tag_name>
+  ```
+
+  这种方法比较直观
+
+- 检出标签
+  
+  查看某个标签指向地文件版本：`git checkout`  
+
+  ```bash
+  git checkout 2.0.0
+  ```
+
+  但是会导致仓库处于`分离头指针（detached HEAD）`的状态。若在此时做了某些改动并且提交它们，标签不会发生变化，但新的提交将会不属于任何分支，并且将无法访问它们，`除非通过确切的提交哈希才能访问。`因此若需要进行更改，修复旧版本中的错误，通常需要创建一个新分支：
+  ```bash
+  git checkout -b version2 v2.0.0
+  ```
+  若在这之后进行了一次提交，version2分支就会因为这次改动向前移动。
+
+## 2.7. git别名  
+  
+在git中可以使用`git config`文件对命令设置别名，如：
+```bash
+$ git config --global alias.co checkout
+$ git config --global alias.br branch
+$ git config --global alias.ci commit
+$ git config --global alias.st status
+```
+
+这里将checkout设置了别名co,因此可以使用co代替checkout
+
+# 3. git 分支
+## 3.1. git分支的创建与合并
 <!-- TODO: git 分支管理 -->
-### 2.7.1. git的几种合并策略
+### 3.1.1. git的几种合并策略
 <!-- TODO: git 冲突解决方法 -->
 1. Fast-forward
    
