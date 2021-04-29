@@ -293,22 +293,40 @@ $ git config --global alias.st status
 
 # 3. git 分支
 ## 3.1. git分支的创建与合并
-<!-- TODO: git 分支管理 -->
+- 分支简介
+<!-- TODO: git 分支简介 -->
+- 分支创建
+  ```bash
+  git branch <new_branch>
+  ```
+
+  该操作会在`当前所在的提交对象`上创建一个指针
 ### 3.1.1. git的几种合并策略
 <!-- TODO: git 冲突解决方法 -->
 1. Fast-forward
    
    <div align = "center">
-   <img src="../img/git-ff1.png" align=center width="400"/>  
+   <img src="../img/git-ff1.png" align=center width="500"/>  
    </div>  
 
    当合并没有分叉分支时，如图，git只需要将master指向最后一个提交节点上。  
 
    <div align = "center">
-   <img src="../img/git-ff2.jpg" align=center width="400"/>  
+   <img src="../img/git-ff2.jpg" align=center width="500"/>  
    </div>  
 
-   Fast-forward是git在合并两个没有分叉的分支时的默认策略，可以使用`git merge --no-ff`取消
+   `Fast-forward是git在合并两个没有分叉的分支时的默认策略`，可以使用`git merge --no-ff`取消  
+
+   实例二：
+   <div align = "center">
+   <img src="../img/basic-branching-4.png" align=center width="500"/>  
+   </div>
+
+   在该场景中，git也是使用fast forward模式进行合并（hotfix合并到master）
+
+   <div align = "center">
+   <img src="../img/basic-branching-5.png" align=center width="500"/>  
+   </div>
    
 2. Recursive  
    
