@@ -293,7 +293,14 @@ $ git config --global alias.st status
 
 # 3. git 分支
 ## 3.1. git分支的创建与合并
-<!-- TODO: git 分支管理 -->
+- 分支简介
+<!-- TODO: git 分支简介 -->
+- 分支创建
+  ```bash
+  git branch <new_branch>
+  ```
+
+  该操作会在`当前所在的提交对象`上创建一个指针
 ### 3.1.1. git的几种合并策略
 <!-- TODO: git 冲突解决方法 -->
 1. Fast-forward
