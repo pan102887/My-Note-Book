@@ -296,11 +296,36 @@ $ git config --global alias.st status
 - 分支简介
 <!-- TODO: git 分支简介 -->
 - 分支创建
+  
+  普通创建方法：
   ```bash
   git branch <new_branch>
   ```
 
-  该操作会在`当前所在的提交对象`上创建一个指针
+  该操作会在`当前所在的提交对象`上创建一个指针(在当前的提交对象上创建一个分支)
+
+  新建一个分支并且切换到该分支上:
+
+  ```bash
+  git checkout -b <new_branch>
+  ```
+- 分支合并
+  
+  切换到被合并的目标分支,如:
+
+  ```bash
+  git checkout master
+  ```
+  然后使用`git merge`命令进行合并。
+
+  ```bash
+  git merge <target>
+  ```
+  若本次合并为Fast-forward模式，\<target>分支上的内容将会合并到master上(Fast-forward模式下master指针将指向target的提交，详情请见下文的"git的几种合并策略")  
+
+  若在合并中产生冲突：
+
+
 ### 3.1.1. git的几种合并策略
 <!-- TODO: git 冲突解决方法 -->
 1. Fast-forward
@@ -330,9 +355,29 @@ $ git config --global alias.st status
    
 2. Recursive  
    
-   Recursive是git分支合并策略中最常用的策略。git在合并两个有分叉的分支时，Rescursive是默认合并策略。  
+   Recursive是git分支合并策略中最常用的策略。git在合并两个有分叉的分支时，Recursive是默认合并策略。  
 
-   其算法可以简述为：递归寻找路径最短的唯一共同祖先节点，然后以其为base家电进行递归三向合并。  
+   其算法可以简述为：递归寻找路径最短的唯一共同祖先节点，然后以其为base进行递归三向合并。  
+
+   <div align = "center">
+   <img src="../img/basic-branching-6.png" align=center width="500"/>  
+   </div>
+
+   如上图中所示，若iss53分支要合并到master中，则会使用recursive模式进行合并。  
+
+   这种情况下，git会找到master和iss53的公共祖先节点C2作为基准，用C2,C4,C5做一个三方合并 
+
+   <div align = "center">
+   <img src="../img/basic-merging-1.png" align=center width="500"/>  
+   </div>
+
+   若这个过程中没有发现冲突，则合并完成。本次合并模式为recursive模式。  
+
+   <div align = "center">
+   <img src="../img/basic-merging-2.png" align=center width="500"/>  
+   </div>
+
+   
 3. Ours
 4. Octopus
 
