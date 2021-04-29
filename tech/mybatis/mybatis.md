@@ -1,0 +1,3 @@
+# mybatis入门
+## 在XML中构建SqlSessionFactory
+- 基于MyBatis的应用都是以一个SqlSessionFactory的实例为核心的。SqlSessionFactory可以通过SqlSessionFactoryBuilder获取。SqlSessionFactoryBuilder则可以通过XML配置文件，或者通过Configuration实例来构建。

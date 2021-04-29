@@ -205,6 +205,18 @@ git log
         changed the version number
     ```
 
+<<<<<<< HEAD
+  - 后期打标签  
+    ```bash
+    git tag -a <tag_name> <部分校验和>
+    ```  
+  - 共享标签
+<!-- TODO: 2021-04-28跟新于此 -->
+    ```bash
+    ```
+## 2.7. git分支的创建与合并
+<!-- TODO: git 分支管理 -->
+### 2.7.1. git的几种合并策略
 =======
 - 后期打标签  
   ```bash
