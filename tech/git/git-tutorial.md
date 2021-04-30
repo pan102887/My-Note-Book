@@ -1,4 +1,6 @@
 - [1. git起步](#1-git起步)
+  - [git 安装](#git-安装)
+  - [git配置](#git配置)
 - [2. git基础](#2-git基础)
   - [2.1. git仓库的初始化](#21-git仓库的初始化)
   - [2.2. 记录每次更新到仓库](#22-记录每次更新到仓库)
@@ -16,7 +18,35 @@
   - [git分支变基](#git分支变基)
 # 1. git起步
 <!-- FIXME: add something here -->
+## git 安装
+- 下载路径
+  - [官方网站](https://git-scm.com/)
+  - [阿里镜像](https://npm.taobao.org/mirrors/git-for-windows/)
+  - [github](https://github.com/git/git/releases)
 
+## git配置
+- 用户名邮箱
+  ```bash
+  git config --global user.name "<your_name>"
+  git config --global user.email "<your_email>"
+  ```
+
+- 配置文件编辑器
+
+  若未配置，git则会使用系统默认编辑器
+  ```bash
+  git config --global core.editor <editor>
+  ```
+
+  如配置vim如下
+  ```bash
+  git config --global core.editor vim
+  ``` 
+
+  若在windows上，想使用别的编辑器例如notepad++则必须指定完整路径，若要使用64位的编辑器，则可能需要输入一下命令
+  ```bash
+  git config --global core.editor "'C:/Program Files/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin"
+  ```
 # 2. git基础
 
 ## 2.1. git仓库的初始化
