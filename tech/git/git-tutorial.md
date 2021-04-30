@@ -325,6 +325,8 @@ $ git config --global alias.st status
 
   若在合并中产生冲突：
 
+  若在合并中git检测到冲突，git则会在冲突文件上展示冲突部分（当前分支上）。使用<<<<<<<<<<<<冲突内容>>>>>>>>>>>>进行展示冲突的部分使用=======隔开。可以使用普通编辑器打开，将冲突解决。也可以使用mergetool（基于vim）图形化工具进行三方合并。
+
 
 ### 3.1.1. git的几种合并策略
 <!-- TODO: git 冲突解决方法 -->
@@ -377,6 +379,7 @@ $ git config --global alias.st status
    <img src="../img/basic-merging-2.png" align=center width="500"/>  
    </div>
 
+   
    
 3. Ours
 4. Octopus
