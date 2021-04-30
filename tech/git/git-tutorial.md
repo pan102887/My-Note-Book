@@ -10,6 +10,10 @@
 - [3. git 分支](#3-git-分支)
   - [3.1. git分支的创建与合并](#31-git分支的创建与合并)
     - [3.1.1. git的几种合并策略](#311-git的几种合并策略)
+  - [3.2. 分支管理](#32-分支管理)
+  - [3.3. 分支开发工作流程](#33-分支开发工作流程)
+  - [3.4. 远程分支](#34-远程分支)
+  - [git分支变基](#git分支变基)
 # 1. git起步
 <!-- FIXME: add something here -->
 
@@ -384,3 +388,46 @@ $ git config --global alias.st status
 3. Ours
 4. Octopus
 
+## 3.2. 分支管理
+
+- 列出分支列表
+  ```bash
+  git branch
+  ```
+- 查看每个分支最后一次提交：
+  ```bash
+  git branch -v
+  ```
+- 查看列表中已经合并或者未合并的分支
+  ```bash
+  git branch --merged
+  ```
+  ```bash
+  git branch --no-merged
+  ```
+- 删除分支
+  ```bash
+  git branch -d <branch_name>
+  ```
+  （使用-d删除分支时，若分支有未合并内容则会失败,可以使用-D强制删除）
+
+## 3.3. 分支开发工作流程
+使用git 进行版本控制，通常都会给项目设置几个平行的长期分支。
+
+比如master用于项目的稳定版本的发布，develop或者next用于下一个版本的测试版，nightly用于每日更新的分支版本等。
+
+对于某个模块的开发工作，通常创建一个新的分支用于开发工作，例如iss41,hotfix等，当完成开发工作后，将工作分支（主题分支）合并到主干分支上，然后删除主题分支。
+
+## 3.4. 远程分支
+- 显式获取远程i引用的完整列表
+  ```bash
+  git ls-remote <remote>
+  ```
+  若要获取更多远程分支的信息
+  ```bash
+  git remote show <remote>
+  ```
+- 远程跟踪分支
+
+
+## git分支变基
