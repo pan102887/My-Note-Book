@@ -333,7 +333,6 @@ $ git config --global alias.st status
 
 
 ### 3.1.1. git的几种合并策略
->>>>>>> 4c0fab45d2f236e42900e3c8fd0bad0b21469104
 <!-- TODO: git 冲突解决方法 -->
 1. Fast-forward
    
