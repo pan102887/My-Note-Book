@@ -221,7 +221,6 @@ git log
         changed the version number
     ```
 
-=======
 - 后期打标签  
   ```bash
   git tag -a <tag_name> <部分校验和>
