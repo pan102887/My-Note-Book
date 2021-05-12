@@ -5,6 +5,9 @@
     - [1.3.1. 自定义异常](#131-自定义异常)
     - [1.3.2.](#132)
 - [2. 高级部分](#2-高级部分)
+  - [泛型](#泛型)
+    - [特性](#特性)
+    - [泛型的使用](#泛型的使用)
   - [2.1. java类加载器以及类的加载](#21-java类加载器以及类的加载)
     - [2.1.1. 类加载器](#211-类加载器)
     - [2.1.2. 类的加载](#212-类的加载)
@@ -34,6 +37,62 @@
 
 # 2. 高级部分  
 
+## 泛型
+### 特性  
+java的泛型信息，其实只保留到编译阶段，在编译过程中，会去泛型化，将泛型中的信息确定，将泛型的相关信息擦除。
+
+### 泛型的使用
+Java中泛型有三种使用方式，分别为：泛型类，泛型接口，泛型方法  
+- 泛型类  
+  ```java
+  class 类名 <泛型标识：可以使用任意标识符>{
+    //成员变量……
+    private 泛型标识符 变量名称;
+    //成员函数……
+    public function(泛型标识符 形参){
+      ……
+    }
+  }
+  ```
+  如
+  ```java
+  public class GenericCLass<T>{
+    private T key;
+    public GenericCLass(T key) {
+      this.key = key;
+    }
+    public void setKey(T key) {
+      this.key = key;
+    }
+    public T getKey() {
+      return this.key;
+    }
+  }
+  ```
+  泛型的类型只能是类类型，不能是基本类型，如int,double等，但可以使用基本类型的包装类，如Integer,String等。在泛型类初始化为具体类型后，传入的参数必须要与泛型的类型参数类型相同。如：
+  ```java
+  GenericClass<String> generic = new GenericClass<String>();
+  //generic被初始化为String类型后，类中的泛型方法参数类型也确定为String类型。
+  generic.setKey(Integer.valueOf(12));
+  ```
+  上述代码会在编译时报错：`java: incompatible types: java.lang.Integer cannot be converted to java.lang.String`。  
+
+  在声明泛型类对象的时候，不一定要传入泛型类型，若使用有参构造函数声明泛型对象，会根据构造函数中参数类型对泛型中的泛型类型进行初始化，如：
+  ```java
+  GenericClass genericCLass = new GenericClass("key");
+  //这里会将泛型类型声明为String类型。
+  ```
+
+  *注意：* 不能对确切的泛型类型使用instanceof操作，如
+  ```java
+  //下面这行代码会在编译时报错
+  boolean obj instanceof GenericClass<String>;
+  ```
+- 泛型接口  
+  泛型接口的使用方法和泛型类大致相同  
+
+- 泛型方法
+  <!-- TODO: 补充泛型方法的用例 -->
 ## 2.1. java类加载器以及类的加载
 ### 2.1.1. 类加载器
 在java中，类通常情况下只会被类加载器加载一次。java中的类加载器默认有三种（用户可以自定义类加载器），分别为：  
