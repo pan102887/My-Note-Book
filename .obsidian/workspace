@@ -1,0 +1,91 @@
+{
+  "main": {
+    "id": "96fd2c8b9c2c1711",
+    "type": "split",
+    "children": [
+      {
+        "id": "9aa7008bf106cbdf",
+        "type": "leaf",
+        "state": {
+          "type": "graph",
+          "state": {}
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "ea70fdf8ae45250a",
+    "type": "split",
+    "children": [
+      {
+        "id": "c37f38521a63def5",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "539aa1495cbc6c96",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "27c9a44d7edb7898",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "07689b25edaa8212",
+    "type": "split",
+    "children": [
+      {
+        "id": "2cc5cf39de69dce5",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "13c374ac5d3da6f5",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "9aa7008bf106cbdf",
+  "lastOpenFiles": [
+    "work/xp-lark/往期版本/酒店淡旺季配置/淡旺季设计.md",
+    "work/xp-lark/记录.md",
+    "work/xp-lark/实用SQL.md"
+  ]
+}
