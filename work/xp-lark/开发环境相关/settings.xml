@@ -43,9 +43,7 @@ under the License.
  | values (values used when the setting is not specified) are provided.
  |
  |-->
-<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
   <!-- localRepository
    | The path to the local repository maven will use to store artifacts.
    |
@@ -130,8 +128,8 @@ under the License.
       <passphrase>optional; leave empty if not used.</passphrase>
     </server>
     -->
-	
-	<!--
+
+    <!--
 	<server>
 		<id>Snapshots</id>
 		<username>admin</username>
@@ -144,20 +142,20 @@ under the License.
 		<password>admin123</password>
 	</server>
 	-->
-	
-	
-	<server>
-		<id>Snapshots</id>
-		<username>wdeployer</username>
-		<password>deploy123</password>
-	</server>
 
-	<server>
-		<id>Releases</id>
-		<username>wdeployer</username>
-		<password>deploy123</password>
-	</server>
-	
+
+    <server>
+      <id>Snapshots</id>
+      <username>wdeployer</username>
+      <password>deploy123</password>
+    </server>
+
+    <server>
+      <id>Releases</id>
+      <username>wdeployer</username>
+      <password>deploy123</password>
+    </server>
+
   </servers>
 
   <!-- mirrors
@@ -184,52 +182,52 @@ under the License.
       <url>http://my.repository.com/repo/path</url>
     </mirror>
      -->
-	
-	<mirror>
-		<id>nexus</id>
-		<mirrorOf>central</mirrorOf>
-		<url>http://nexus.logan.xiaopeng.local:8081/nexus/content/groups/public/</url>
-	</mirror>
-	<mirror>
-		<id>nexus-aliyun</id>
-		<name>Nexus aliyun</name>
-		<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-		<mirrorOf>central</mirrorOf>
-	</mirror>
-<mirror>
-    <id>alimaven</id>
-    <mirrorOf>central</mirrorOf>
-    <name>aliyun maven</name>
-    <url>http://maven.aliyun.com/nexus/content/repositories/central/</url>
-</mirror>
- 
-<mirror>
-    <id>ibiblio</id>
-    <mirrorOf>central</mirrorOf>
-    <name>Human Readable Name for this Mirror.</name>
-    <url>http://mirrors.ibiblio.org/pub/mirrors/maven2/</url>
-</mirror>
-<mirror>
-    <id>jboss-public-repository-group</id>
-    <mirrorOf>central</mirrorOf>
-    <name>JBoss Public Repository Group</name>
-    <url>http://repository.jboss.org/nexus/content/groups/public</url>
-</mirror>
- 
-<mirror>
-    <id>central</id>
-    <name>Maven Repository Switchboard</name>
-    <url>http://repo1.maven.org/maven2/</url>
-    <mirrorOf>central</mirrorOf>
-</mirror>
-<mirror>
-    <id>repo2</id>
-    <mirrorOf>central</mirrorOf>
-    <name>Human Readable Name for this Mirror.</name>
-    <url>http://repo2.maven.org/maven2/</url>
-</mirror>
 
-	<!--
+    <mirror>
+      <id>nexus</id>
+      <mirrorOf>central</mirrorOf>
+      <url>http://nexus.logan.xiaopeng.local:8081/nexus/content/groups/public/</url>
+    </mirror>
+    <mirror>
+      <id>nexus-aliyun</id>
+      <name>Nexus aliyun</name>
+      <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+      <mirrorOf>central</mirrorOf>
+    </mirror>
+    <mirror>
+      <id>alimaven</id>
+      <mirrorOf>central</mirrorOf>
+      <name>aliyun maven</name>
+      <url>http://maven.aliyun.com/nexus/content/repositories/central/</url>
+    </mirror>
+
+    <mirror>
+      <id>ibiblio</id>
+      <mirrorOf>central</mirrorOf>
+      <name>Human Readable Name for this Mirror.</name>
+      <url>http://mirrors.ibiblio.org/pub/mirrors/maven2/</url>
+    </mirror>
+    <mirror>
+      <id>jboss-public-repository-group</id>
+      <mirrorOf>central</mirrorOf>
+      <name>JBoss Public Repository Group</name>
+      <url>http://repository.jboss.org/nexus/content/groups/public</url>
+    </mirror>
+
+    <mirror>
+      <id>central</id>
+      <name>Maven Repository Switchboard</name>
+      <url>http://repo1.maven.org/maven2/</url>
+      <mirrorOf>central</mirrorOf>
+    </mirror>
+    <mirror>
+      <id>repo2</id>
+      <mirrorOf>central</mirrorOf>
+      <name>Human Readable Name for this Mirror.</name>
+      <url>http://repo2.maven.org/maven2/</url>
+    </mirror>
+
+    <!--
 	<mirror>
 		<id>nexus-aliyun</id>
 		<mirrorOf>*,!jeecg,!jeecg-snapshots</mirrorOf>
@@ -237,7 +235,7 @@ under the License.
 		<url>http://maven.aliyun.com/nexus/content/groups/public</url>
 	</mirror>
 	-->
-	<!-- 不要从阿里云下载cloudera
+    <!-- 不要从阿里云下载cloudera
 	<mirror> 
 		<id>alimaven</id> 
 		<name>aliyun maven</name> 
@@ -333,27 +331,27 @@ under the License.
       </properties>
     </profile>
     -->
-	
-	 <profile>
-		<id>dev</id>
-		<repositories>
-			<repository>
-				<id>local-nexus</id>
-				<url>http://nexus.logan.xiaopeng.local:8081/nexus/content/groups/public/</url>
-			</repository>
-			 <repository>
-				<id>baymax-releases</id>
-				<name>Nexus Release Repository</name>
-				<url>http://maven.youzanyun.com/repository/maven-releases/</url>
-			</repository>
-			<repository>
-                                <id>centit</id>
-                                <name>Centit Repository</name>
-                                <url>http://develop.centit.com/nexus/content/repositories/centit-releases/</url>
-                        </repository>
-		</repositories>
-	</profile>
-	
+
+    <profile>
+      <id>dev</id>
+      <repositories>
+        <repository>
+          <id>local-nexus</id>
+          <url>http://nexus.logan.xiaopeng.local:8081/nexus/content/groups/public/</url>
+        </repository>
+        <repository>
+          <id>baymax-releases</id>
+          <name>Nexus Release Repository</name>
+          <url>http://maven.youzanyun.com/repository/maven-releases/</url>
+        </repository>
+        <repository>
+          <id>centit</id>
+          <name>Centit Repository</name>
+          <url>http://develop.centit.com/nexus/content/repositories/centit-releases/</url>
+        </repository>
+      </repositories>
+    </profile>
+
   </profiles>
 
   <!-- activeProfiles
@@ -364,9 +362,9 @@ under the License.
     <activeProfile>anotherAlwaysActiveProfile</activeProfile>
   </activeProfiles>
   -->
-  
-	<activeProfiles>
-        <activeProfile>dev</activeProfile>
-	</activeProfiles>
-  
+
+  <activeProfiles>
+    <activeProfile>dev</activeProfile>
+  </activeProfiles>
+
 </settings>

@@ -7,8 +7,12 @@
         "id": "9aa7008bf106cbdf",
         "type": "leaf",
         "state": {
-          "type": "graph",
-          "state": {}
+          "type": "markdown",
+          "state": {
+            "file": "tech/关系型数据库/ORM插件/MyBatis/mabatis-basic.md",
+            "mode": "source",
+            "source": false
+          }
         }
       }
     ],
@@ -65,6 +69,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "tech/关系型数据库/ORM插件/MyBatis/mabatis-basic.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -84,6 +89,8 @@
   },
   "active": "9aa7008bf106cbdf",
   "lastOpenFiles": [
+    "tech/关系型数据库/ORM插件/MyBatis/mabatis-basic.md",
+    "tech/关系型数据库/ORM插件/MyBatis/MyBatis-XML配置.md",
     "work/xp-lark/往期版本/酒店淡旺季配置/淡旺季设计.md",
     "work/xp-lark/记录.md",
     "work/xp-lark/实用SQL.md"

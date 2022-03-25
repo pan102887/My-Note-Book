@@ -1,0 +1,2 @@
+xiaopeng.audit.needAuditList : /v1/api/commonCouponLog/export,v1/api/commonCoupon/export,/v1/api/couponCard/export,/v1/api/CouponPackage/export,/v1/api/marketCoupon/export,/v1/api/commonCoupon/export,/v1/api/goods/exportSku,/v1/api/order/export/for/item,/v1/api/order/export/for/order,/v1/api/refund/export,/v1/api/cancelOrder/export
+xiaopeng.audit.notNeedAuditList : /v1/api/auditLog/pageList,/v1/api/baseData/pageStaticData,/v1/api/tool/upload,/v1/api/goods/sku/skuInfoBatch,/v1/api/storeGoodsGroup/page
