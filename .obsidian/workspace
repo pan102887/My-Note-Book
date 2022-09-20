@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "tech/关系型数据库/ORM插件/MyBatis/mabatis-basic.md",
+            "file": "数学/概率论.md",
             "mode": "source",
             "source": false
           }
@@ -69,7 +69,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "tech/关系型数据库/ORM插件/MyBatis/mabatis-basic.md",
+                "file": "数学/概率论.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -89,6 +89,9 @@
   },
   "active": "9aa7008bf106cbdf",
   "lastOpenFiles": [
+    "数学/概率论.md",
+    "work/readme.md",
+    "README.md",
     "tech/关系型数据库/ORM插件/MyBatis/mabatis-basic.md",
     "tech/关系型数据库/ORM插件/MyBatis/MyBatis-XML配置.md",
     "work/xp-lark/往期版本/酒店淡旺季配置/淡旺季设计.md",
