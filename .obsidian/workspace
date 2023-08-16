@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "work/xp-lark/2.7.0/分佣管理.md",
+            "file": "my-notebook/Untitled.md",
             "mode": "source",
             "backlinks": true,
             "source": false
@@ -70,7 +70,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "work/xp-lark/2.7.0/分佣管理.md",
+                "file": "my-notebook/Untitled.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -90,6 +90,8 @@
   },
   "active": "9aa7008bf106cbdf",
   "lastOpenFiles": [
+    "my-notebook/Untitled.md",
+    "my-notebook/trip/珠海.md",
     "work/xp-lark/2.7.0/分佣管理.md",
     "work/xp-lark/开发环境相关/常用项目.md",
     "work/xp-lark/2.6.0/用户触达.md",
@@ -97,8 +99,6 @@
     "work/xp-lark/2.2.0/平台审计.md",
     "README.md",
     "tech/关系型数据库/ORM插件/MyBatis/mabatis-basic.md",
-    "tech/关系型数据库/ORM插件/MyBatis/MyBatis-XML配置.md",
-    "work/xp-lark/往期版本/酒店淡旺季配置/淡旺季设计.md",
-    "work/xp-lark/记录.md"
+    "tech/关系型数据库/ORM插件/MyBatis/MyBatis-XML配置.md"
   ]
 }
