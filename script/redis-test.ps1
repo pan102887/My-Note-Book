@@ -1,1 +1,0 @@
-redis-cli -h r-bp1cvsz9n3peubt7krpd.redis.rds.aliyuncs.com -p 6379 -a PVygR8peP6Mc1FPj -n 91
