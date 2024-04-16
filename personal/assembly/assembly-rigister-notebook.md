@@ -38,3 +38,4 @@ IP is the instruction pointer register. It is used to store the offset address o
 ### FLAGS
 FLAGS is the flag register. It is used to store the status of the processor. It is also used to check the result of the previous arithmetic operation.
 
+ 
