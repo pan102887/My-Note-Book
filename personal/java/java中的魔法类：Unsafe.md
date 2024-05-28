@@ -33,6 +33,15 @@ Unsafe主要提供了系统相关、数组相关、内存屏障、对象操作�
 ### 内存屏障
 - 禁止Load,store重排序
 
+内存屏障主要有读屏障、写屏障以及完全屏障，对应Unsafe中`loadFence`，`storeFence`与`fullFence`方法。
+
+屏障使得 CPU 或编译器在对内存进行操作的时候, 严格按照一定的顺序来执行, 也就是说在内存屏障之前的指令和之后的指令不会由于系统优化等原因而导致乱序。
+```java
+public native void loadFence();
+public native void storeFence();
+public native void fullFence();
+```
+
 ### 对象操作
 - 获取对象成员属性在内存的偏移量
 - 非常规对象实例化
