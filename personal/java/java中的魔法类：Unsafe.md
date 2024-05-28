@@ -18,8 +18,9 @@ Unsafe是java在sun.misc包下的一个类，此类主要提供了一些用于�
 ```
 因此可以通过以下两种方法获取Unsafe的对象实例，一个是通过反射，另一个是在java命令中加上```-Xbootclasspath/a```把调用Unsafe相关方法的类A所在jar的包路径追加到默认的bootstrap路径中，使A被引导类加载器加载，从而使得A可以通过`Unsafe.getInstance()`方法获取到Unsafe实例。
 
-## 功能介绍
-Unsafe所提供的功能大致如下
+## Unsafe提供的API大致功能
+
+Unsafe主要提供了系统相关、数组相关、内存屏障、对象操作、Class相关、cas操作相关、线程调度以及内存操作这几个部分的功能接口。
 
 ### 系统相关
 - 返回内存页大小
@@ -35,14 +36,47 @@ Unsafe所提供的功能大致如下
 ### 对象操作
 - 获取对象成员属性在内存的偏移量
 - 非常规对象实例化
-- 存储，读取指定偏移地址的变量值（包含延迟生效，volatile语义）、
+- 存储，读取指定偏移地址的变量值（包含延迟生效，volatile语义）
+
+```java
+//返回对象成员属性在内存地址相对于此对象的内存地址的偏移量
+public native long objectFieldOffset(Field f);
+//获得给定对象的指定地址偏移量的值，与此类似操作还有：getInt，getDouble，getLong，getChar等
+public native Object getObject(Object o, long offset);
+//给定对象的指定地址偏移量设值，与此类似操作还有：putInt，putDouble，putLong，putChar等
+public native void putObject(Object o, long offset, Object x);
+//从对象的指定偏移量处获取变量的引用，使用volatile的加载语义
+public native Object getObjectVolatile(Object o, long offset);
+//存储变量的引用到对象的指定的偏移量处，使用volatile的存储语义
+public native void putObjectVolatile(Object o, long offset, Object x);
+//有序、延迟版本的putObjectVolatile方法，不保证值的改变被其他线程立即看到。只有在field被volatile修饰符修饰时有效
+public native void putOrderedObject(Object o, long offset, Object x);
+//绕过构造方法、初始化代码来创建对象
+public native Object allocateInstance(Class<?> cls) throws InstantiationException;
+```
 
 ### Class相关
 - 动态创建类(普通类和匿名类)
 - 获取field的内存地址偏移量
 - 检测、确保类初始化
 
-关于这部分，Unsafe主要提供Class和它的静态字段的操作相关方法，包含静态字段内存定位、定义类、定义匿名类、检验&确保初始化等。
+
+Unsafe在这一块主要提供了Class和它的静态字段相关操作的方法，包含静态字段内存定位、定义类、定义匿名类、检验&确保初始化等。
+```java
+// 获取给定静态字段的内存地址偏移量
+public native long staticFieldOffset(Field var1);
+// 获取给定的静态变量的地址
+public native Object staticFieldBase(Field var1);
+// 判断给定的类是否需要初始化
+public native boolean shouldBeInitialized(Class<?> var1);
+// 检测给定的类是否已经初始化
+public native void ensureClassInitialized(Class<?> c);
+// 定义一个类
+public native Class<?> defineClass(String name, byte[] b, int off, int len, ClassLoader loader, ProtectionDomain protectionDomain);
+// 定义匿名类
+public native Class<?> defineAnonymousClass(Class<?> hostClass, byte[] data, Object[] cpPatches);
+```
+
 
 ### CAS操作
 CAS操作为Java中一系列原子操作的实现提供了重要支持，在例如Atomic一系列相关的类，AQS以及ConcurrentHashMap等场景都有广泛使用，也是实现并发算法的常用技术。那什么是CAS，CAS的全称是Compare And Swap，即比较并替换，Unsafe这里提供的CAS操作有三个操作数：内存地址，预期原始值，新值。在执行CAS操作的时候，会比较此内存位置中的值是否等于预期原始值，如果是，则将位置赋予新值并返回true，否则直接返回false。CAS的底层实现其实是依赖CPU提供的cmpxchg原子操作指令，[CAS相关内容详见此处](./CAS.md)。
@@ -52,165 +86,42 @@ CAS操作为Java中一系列原子操作的实现提供了重要支持，在例�
 正如刚刚所提到的，Unsafe提供的CAS操作在java.util.concurrent包下atomic相关的的类、AQS以及ConcurrentHashMap等等都有广泛使用。下面以java 8中的AtomicInteger类为例子，在它的static代码块中可以看到，使用了Unsafe中的objectFieldOffset方法计算出了value成员变量在AtomicInteger类中的相对位置。并在AtomicInterger提供其他的原子操作方法里，
 
 ```java
-    private static final long valueOffset;
+private static final long valueOffset;
 
-    static {
-        try {
-            valueOffset = unsafe.objectFieldOffset
-                (AtomicInteger.class.getDeclaredField("value"));
-        } catch (Exception ex) { throw new Error(ex); }
-    }
+static {
+    try {
+        valueOffset = unsafe.objectFieldOffset
+            (AtomicInteger.class.getDeclaredField("value"));
+    } catch (Exception ex) { throw new Error(ex); }
+}
 
-    private volatile int value;
+private volatile int value;
 
-    // ....
-
-    /**
-     * Atomically sets the value to the given updated value
-     * if the current value {@code ==} the expected value.
-     *
-     * @param expect the expected value
-     * @param update the new value
-     * @return {@code true} if successful. False return indicates that
-     * the actual value was not equal to the expected value.
-     */
-    public final boolean compareAndSet(int expect, int update) {
-        return unsafe.compareAndSwapInt(this, valueOffset, expect, update);
-    }
-```
-
-openJDK中关于CAS操作实现的相关JNI C++代码
-```c++
-#define UNSAFE_ENTRY_SCOPED(result_type, header) \
-  JVM_ENTRY(static result_type, header) \
-  if (thread->has_async_exception_condition()) {return (result_type)0;}
-
-
+// ....
 /**
- * 根据对象地址以及成员变量内存在类中偏移量计算成员变量实际内存地址
- * @param p             java对象地址（指针）
- * @param field_offset  成员变量偏移量
+ * Atomically sets the value to the given updated value
+ * if the current value {@code ==} the expected value.
+ *
+ * @param expect the expected value
+ * @param update the new value
+ * @return {@code true} if successful. False return indicates that
+ * the actual value was not equal to the expected value.
  */
-static inline void* index_oop_from_field_offset_long(oop p, jlong field_offset) {
-  assert_field_offset_sane(p, field_offset);
-  uintptr_t base_address = cast_from_oop<uintptr_t>(p);
-  uintptr_t byte_offset  = (uintptr_t)field_offset_to_byte_offset(field_offset);
-  // 成员变量实际地址 = java对象地址 + 此成员变量的偏移量
-  return (void*)(base_address + byte_offset);
+public final boolean compareAndSet(int expect, int update) {
+    return unsafe.compareAndSwapInt(this, valueOffset, expect, update);
 }
-
-
-// Unsafe中的    public final native boolean compareAndSetInt(Object o, long offset, int expected, int x) 方法的入口
-UNSAFE_ENTRY_SCOPED(jboolean, Unsafe_CompareAndSetInt(JNIEnv *env, jobject unsafe, jobject obj, jlong offset, jint e, jint x)) {
-  oop p = JNIHandles::resolve(obj);
-  // 根据对象地址以及偏移量计算得到 将要进行CAS操作的int变量地址
-  volatile jint* addr = (volatile jint*)index_oop_from_field_offset_long(p, offset);
-  // 调用Atomic类下的cmpxchg方法
-  return Atomic::cmpxchg(addr, e, x) == e;
-} UNSAFE_END
-
-/* --------- Atomic类下面的cmpxchg实现 ----------*/
-class Atomic : AllStatic {
-public:
-  // Performs atomic compare of *dest and compare_value, and exchanges
-  // *dest with exchange_value if the comparison succeeded. Returns prior
-  // value of *dest. cmpxchg*() provide:
-  // <fence> compare-and-exchange <membar StoreLoad|StoreStore>
-
-  /* 这里对cmpxchg方法进行了定义，可以看到，是一个模板方法 */
-  template<typename D, typename U, typename T>
-  inline static D cmpxchg(D volatile* dest,
-                          U compare_value,
-                          T exchange_value,
-                          atomic_memory_order order = memory_order_conservative);
-
-private:
-
-  // Dispatch handler for cmpxchg.  Provides type-based validity
-  // checking and limited conversions around calls to the
-  // platform-specific implementation layer provided by
-  // PlatformCmpxchg.
-  /* 这里插个眼，后面的cmpxchg实现代码中会用到这个CmpxchgImpl */
-  template<typename D, typename U, typename T, typename Enable = void>
-  struct CmpxchgImpl;
-};
-
-template<typename D, typename U, typename T>
-inline D Atomic::cmpxchg(D volatile* dest,
-                         U compare_value,
-                         T exchange_value,
-                         atomic_memory_order order) {
-  /* 这里可以看到cmpxchg方法这里调用到了刚刚提到的CmpxchgImpl */
-  return CmpxchgImpl<D, U, T>()(dest, compare_value, exchange_value, order);
-}
-
-// Handle cmpxchg for pointer types.
-//
-// The destination's type and the compare_value type must be the same,
-// ignoring cv-qualifiers; we don't care about the cv-qualifiers of
-// the compare_value.
-//
-// The exchange_value must be implicitly convertible to the
-// destination's type; it must be type-correct to store the
-// exchange_value in the destination.
-template<typename D, typename U, typename T>
-struct Atomic::CmpxchgImpl<
-  D*, U*, T*,
-  typename EnableIf<Atomic::IsPointerConvertible<T*, D*>::value &&
-                    std::is_same<std::remove_cv_t<D>,
-                                 std::remove_cv_t<U>>::value>::type>
-{
-  D* operator()(D* volatile* dest, U* compare_value, T* exchange_value,
-               atomic_memory_order order) const {
-    // Allow derived to base conversion, and adding cv-qualifiers.
-    D* new_value = exchange_value;
-    // Don't care what the CV qualifiers for compare_value are,
-    // but we need to match D* when calling platform support.
-    D* old_value = const_cast<D*>(compare_value);
-    // 这里
-    return PlatformCmpxchg<sizeof(D*)>()(dest, old_value, new_value, order);
-  }
-};
-
-// Define the class before including platform file, which may specialize
-// the operator definition.  No generic definition of specializations
-// of the operator template are provided, nor are there any generic
-// specializations of the class.  The platform file is responsible for
-// providing those.
-template<size_t byte_size>
-struct Atomic::PlatformCmpxchg {
-  template<typename T>
-  T operator()(T volatile* dest,
-               T compare_value,
-               T exchange_value,
-               atomic_memory_order order) const;
-};
-
-
-// Atomic::PlatformXchg 在不同CPU平台，不同操作系统，不同操作数长度都有对应不同的实现
-// 这里只找出以最常见的X86架构下linux系统32位(因为int类型是32位)为例子
-// 感兴趣可以自己去openJdk项目里，在src/hotspot/op_cpu 的包路径下找到想查阅的实现代码
-template<>
-template<typename T>
-inline T Atomic::PlatformCmpxchg<4>::operator()(T volatile* dest,
-                                                T compare_value,
-                                                T exchange_value,
-                                                atomic_memory_order /* order */) const {
-  STATIC_ASSERT(4 == sizeof(T));
-  __asm__ volatile ("lock cmpxchgl %1,(%3)"
-                    : "=a" (exchange_value)
-                    : "r" (exchange_value), "a" (compare_value), "r" (dest)
-                    : "cc", "memory");
-  return exchange_value;
-}
-
 ```
+
+
+
 
 ### 线程调度
 - 线程挂起、恢复
 - 获取、释放锁
 
-关于这部分，Unsafe提供的方法主要有以下内容，正如代码注释中所示，spar与unspark方法可以实现现成的挂起与恢复。调用park方法后，线程将一直阻塞到超时或者中断条件出现；unpark则可以终止挂起一个线程，使其恢复正常。
+关于这部分，Unsafe提供了线程阻塞，取消阻塞以及锁相关这几块功能，正如下面代码示例中注释所示，spar与unspark方法分别提供了线程的的挂起与恢复这两个功能。调用park方法后，线程将一直阻塞到超时或者中断条件出现；unpark则可以终止挂起一个线程，使其恢复正常。
+而关于对象锁这块内容，在新版本的JDK中已经被删除（但是目前我们广泛使用的JDK8仍然保留）
+
 ```java
 //取消阻塞线程
 public native void unpark(Object thread);
@@ -227,7 +138,7 @@ public native void monitorExit(Object o);
 public native boolean tryMonitorEnter(Object o);
 ```
 #### 使用案例
-在LockSupport类中，实现线程的阻塞(park)和唤醒(unpark)就是通过调用Unsafe中的park和unpark实现的。而LockSupport也被JAVA的锁和同步核心类AQS中用于实现线程的阻塞和唤醒。
+在LockSupport类中，通过调用Unsafe中的park和unpark方法来实现线程的阻塞与唤醒。而被广泛用于实现无锁并发机制的AQS，就是通过LockSupport来实现线程阻塞与唤醒的。
 
 LockSupport中的unpark
 ```java
