@@ -1,5 +1,13 @@
+- [1. 并发编程的三大要素](#1-并发编程的三大要素)
+- [2. JMM(Java Memory Model)java内存模型\[^7\]](#2-jmmjava-memory-modeljava内存模型7)
+- [3. volatile](#3-volatile)
+  - [3.1. volatile与可见性](#31-volatile与可见性)
+  - [3.2. volatile与指令重排](#32-volatile与指令重排)
+  - [3.3. JMM与内存屏障](#33-jmm与内存屏障)
+- [4. 不使用volatile，也不加锁直接显式使用内存屏障](#4-不使用volatile也不加锁直接显式使用内存屏障)
+- [5. 参考文献](#5-参考文献)
 
-# 1. 并发编程的三大核心问题
+# 1. 并发编程的三大要素
 在讲述volatile的作用之前，这里先复习一下并发编程中的三要素原子性，可见性，有序性：
 
 1. **原子性**：是指一个操作是不可被中断，但是在多线程环境下，由于线程的调度，CPU的上下文切换，线程内的多个操作是不能保证被原子执行的。
@@ -46,7 +54,7 @@ doSomething(context);
 1. 可见性：被volatile修饰的共享变量被一个线程修改后，其新的值总是可以被其他线程立即感知到。
 2. 有序性：可以禁止指令重排优化
 
-下面以几个实际例子进行说明
+下面以几个例子进行说明
 ## 3.1. volatile与可见性
 ```java
 import java.util.concurrent.TimeUnit;
@@ -330,7 +338,7 @@ public class Test {
 
 
 
-## 4.1. 参考文献
+# 5. 参考文献
 [^1]: [Java 并发编程之 JMM & volatile 详解](https://xie.infoq.cn/article/8b877b5fbe755c382fcee8ddd)
 [^2]: [JSR 133: JavaTM Memory Model and Thread Specification Revision
 ](https://jcp.org/en/jsr/detail?id=133)
