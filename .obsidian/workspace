@@ -9,11 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-<<<<<<< HEAD
-            "file": "数学/概率论.md",
-=======
-            "file": "work/xp-lark/2.7.0/分佣管理.md",
->>>>>>> 175a60ce6327915f43f1eece0f3be7ca54ad70cb
+            "file": "my-notebook/Untitled.md",
             "mode": "source",
             "backlinks": true,
             "source": false
@@ -74,11 +70,7 @@
             "state": {
               "type": "backlink",
               "state": {
-<<<<<<< HEAD
-                "file": "数学/概率论.md",
-=======
-                "file": "work/xp-lark/2.7.0/分佣管理.md",
->>>>>>> 175a60ce6327915f43f1eece0f3be7ca54ad70cb
+                "file": "my-notebook/Untitled.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -98,10 +90,8 @@
   },
   "active": "9aa7008bf106cbdf",
   "lastOpenFiles": [
-<<<<<<< HEAD
-    "数学/概率论.md",
-    "work/readme.md",
-=======
+    "my-notebook/Untitled.md",
+    "my-notebook/trip/珠海.md",
     "work/xp-lark/2.7.0/分佣管理.md",
     "work/xp-lark/开发环境相关/常用项目.md",
     "work/xp-lark/2.6.0/用户触达.md",
@@ -110,8 +100,6 @@
 >>>>>>> 175a60ce6327915f43f1eece0f3be7ca54ad70cb
     "README.md",
     "tech/关系型数据库/ORM插件/MyBatis/mabatis-basic.md",
-    "tech/关系型数据库/ORM插件/MyBatis/MyBatis-XML配置.md",
-    "work/xp-lark/往期版本/酒店淡旺季配置/淡旺季设计.md",
-    "work/xp-lark/记录.md"
+    "tech/关系型数据库/ORM插件/MyBatis/MyBatis-XML配置.md"
   ]
 }
