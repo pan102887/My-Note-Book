@@ -46,7 +46,7 @@ doSomething(context);
 2. 有序性：可以禁止指令重排优化
 
 下面以几个实际例子进行说明
-## 可见性
+## volatile与可见性
 ```java
 import java.util.concurrent.TimeUnit;
 
@@ -94,7 +94,7 @@ lock addl $0x0,-0x40(%rsp)          ;*putstatic breaking {reexecute=0 rethrow=0 
 
 这里LOCK前缀使得其他CPU上的相关缓存，在这条指令执行完成后失效，从而保证了breaking再CPU之间的可见性。
 
-## 指令重排
+## volatile与指令重排
 ```java
 public class Test {
     static int a = 0, b = 0, x = 0, y = 0;
@@ -128,7 +128,7 @@ public class Test {
 
 如果没有指令重排，上面这段代码对于x, y的运行结果只会有`x = 1, y = 1`, `x = 1, y = 0`, `x = 0, y = 1`。也就是说，上面这段程序如果没有发生指令重排，应该是一个死循环。但是实际运行可以发现，程序在运行一段时间之后便退出了循环，这就是指令重排造成的。要避免指令重排，可以在变量声明时，对变量使用volatile关键字进行修饰。
 
-JMM中，Volatile与监视器（锁）对于指令重排影响的可以通过下面这个表格进行理解，虽然它并不代表JMM规则本身，但仍可以帮助你对volatile与指令重排之间的理解。[^3]
+JMM中，Volatile与监视器（锁）对于指令重排影响的可以由下面这个表格的内容进行表示，虽然它并不代表JMM规则本身，但仍可以帮助你对volatile与指令重排之间的理解。[^3]
 
 <table cellspacing="1" cellpadding="1">
   <tbody>
@@ -181,7 +181,7 @@ JMM中，Volatile与监视器（锁）对于指令重排影响的可以通过下
   </tbody>    
 </table>
 
-对非volatile修饰的变量进行读取为Normal Load，写非volatile修饰的变量为Normal Store, volatile Load/Store同理。编译器通过在这些load/store指令序列中插入内存屏障来禁止某种特定类型的处理器重排序。以实现volatile的禁止重排序的内存语义。
+对非volatile修饰的变量进行读取为Normal Load，写非volatile修饰的变量为Normal Store, volatile的Load/Store同理。编译器通过在这些load/store指令序列中插入内存屏障来禁止某种特定类型的处理器重排序。以实现volatile的禁止重排序的内存语义。
 
 对于内存屏障，通常可以分为以下4种，这里做个简单介绍：
 1. **LoadLoad 屏障**
@@ -200,7 +200,7 @@ JMM中，Volatile与监视器（锁）对于指令重排影响的可以通过下
    **指令序列案例**: Store1; StoreLoad; Load1
    **效果**: 确保Store1所涉及的数据，在Load1及其其他后续Load指令执行前，完成Store操作，并且对所有CPU立即可见。
 
-JSR-133规范[^7]中所给出的排序规则，可以用下表格中所示的逻辑实现。
+JSR-133 JAVA内存模型规范[^7]中所给出的指令排序规则，可以用下表格中所示的逻辑表示。
 <table cellspacing="2" cellpadding="2">
   <tbody>
   <tr>
@@ -272,10 +272,59 @@ JSR-133规范[^7]中所给出的排序规则，可以用下表格中所示的逻
   </tbody>    
 </table>
 
-即使这里给出了4中内存屏障类型，但这些内存屏障并不是在所有CPU架构中，都有一一对应的指令。不同的CPU架构上对指令重排的规则都不太一样，因此在某些CPU上不需要显式地使用某个内存屏障指令来避免重排序（因为它本来就不会进行这种重排），这里以intel X86_64架构CPU为例子。在X86_64处理器中，直接关于内存屏障的指令有`SFENCE, LFENCE, MFENCE`这三个，以及`LOCK`指令前缀，它虽然不是内存屏障指令，但也有和内存屏障一样的效果。
-- SFENCE: 保证按程序顺序在存储屏障之前的每个存储指令的结果在栅栏之后的任何存储指令之前全局可见
+虽然这里给出了4中内存屏障类型，但这些内存屏障并不是在所有CPU架构中，都有一一对应的指令。不同的CPU架构上对指令重排的规则都不太一样，因此在某些CPU上不需要显式地使用某个内存屏障指令来避免重排序（因为它本来就不会进行这种重排），这里以intel X86_64架构CPU为例子。在X86_64处理器中，直接关于内存屏障的指令有`SFENCE, LFENCE, MFENCE`这三个。
+- SFENCE: 保证在存储屏障之前的每个存储指令的结果在屏障后之后的任何存储指令执行之前全局可见
 - LFENCE: 在保证加载屏障之前指定的所有加载都执行完毕之前，不允许进行加载屏障后的加载
 - MFENCE: 确保 MFENCE 之前的所有加载和存储完成并都全局可见之前, MFENCE 之后的任何加载或存储都不会全局可见。
+- LOCK: LOCK指令前缀虽然不是内存屏障指令，但通过分析它的作用效果，就能发现LOCK指令前缀自带MFENCE一样的副作用。因此它也是可以用来实现内存屏障效果的。
+
+除了使用volatile关键字，锁也是可以用来达到保证有序性的效果的，上面的表格中也有提到MoniterEntry与MoniterExit。关于这部分，可参考[Synchronization and the Java Memory Model](https://geecs.oswego.edu/dl/cpj/jmm.html)这篇文章。
+
+# 不使用volatile，也不加锁直接显式使用内存屏障
+在JDK 8及之后版本的JDK中，Unsafe类提供了直接使用内存屏障的方法，在不同版本中可能有所区别，但JDK 8中有以下这三个方法：`loadFence(), storeFence(), fullFence()`。通过显式地调用这三个方法[^1]，就可以手动插入对应的内存屏障。这里继续以刚才的代码为例子:
+```java
+import sun.misc.Unsafe;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
+public class Test {
+    static int a = 0, b = 0, x = 0, y = 0;
+
+    public static void main(String[] args) throws InterruptedException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        Class<Unsafe> unsafeClass = Unsafe.class;
+        Constructor<Unsafe> declaredConstructor = unsafeClass.getDeclaredConstructor();
+        declaredConstructor.setAccessible(true);
+        Unsafe unsafe = declaredConstructor.newInstance();
+
+        boolean result;
+        int i = 0;
+        do {
+            i++;
+            Thread thread_1 = new Thread(() -> {
+                a = 1;
+                unsafe.storeFence();
+                x = b;
+            });
+
+            Thread thread_2 = new Thread(() -> {
+                b = 1;
+                unsafe.storeFence();
+                y = a;
+            });
+
+            thread_1.start();
+            thread_2.start();
+            thread_1.join();
+            thread_2.join();
+            result = x == 0 && y == 0;
+            a = 0; b = 0; x = 0; y = 0;
+        } while (!result);
+        System.out.println(i);
+    }
+}
+```
+这里使用Unsafe提供的方法，在`x = b`与`y = a`之前插入一个store屏障，使`x = b`不会在`a = 1`执行完成之前执行，`y = a`同理。使这段代码等价于使用volatile关键字修饰变量。
+
 
 
 
@@ -284,8 +333,5 @@ JSR-133规范[^7]中所给出的排序规则，可以用下表格中所示的逻
 [^2]: [JSR 133: JavaTM Memory Model and Thread Specification Revision
 ](https://jcp.org/en/jsr/detail?id=133)
 [^3]: [The JSR-133 Cookbook for Compiler Writers](https://gee.cs.oswego.edu/dl/jmm/cookbook.html)
-[^4]: [The Java Memory Model](https://www.cs.umd.edu/%7Epugh/java/memoryModel/)
-[^5]: [Synchronization and the Java Memory Model](https://gee.cs.oswego.edu/dl/cpj/jmm.html)
-[^6]: [JSR 133 (Java Memory Model) FAQ](https://www.cs.umd.edu/~pugh/java/memoryModel/jsr-133-faq.html)
 [^7]: [JSR-133: JavaTM Memory Model and Thread
 Specification](https://www.cs.umd.edu/~pugh/java/memoryModel/jsr133.pdf)
