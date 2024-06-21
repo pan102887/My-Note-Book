@@ -110,7 +110,7 @@ public native Class<?> defineAnonymousClass(Class<?> hostClass, byte[] data, Obj
 
 
 ### CAS操作
-CAS操作为Java中一系列原子操作的实现提供了重要支持，在例如Atomic一系列相关的类，AQS以及ConcurrentHashMap等场景都有广泛使用，也是实现并发算法的常用技术。那什么是CAS，CAS的全称是Compare And Swap，即比较并替换，Unsafe这里提供的CAS操作有三个操作数：内存地址，预期原始值，新值。在执行CAS操作的时候，会比较此内存位置中的值是否等于预期原始值，如果是，则将位置赋予新值并返回true，否则直接返回false。CAS的底层实现其实是依赖CPU提供的cmpxchg原子操作指令以及lock指令前缀，关于这部分[内容详见此处](./JAVA并发编程的根基——CAS.md)。
+CAS操作为Java中一系列原子操作的实现提供了重要支持，在例如Atomic一系列相关的类，AQS以及ConcurrentHashMap等场景都有广泛使用，也是实现并发算法的常用技术。那什么是CAS，CAS的全称是Compare And Swap，即比较并替换，Unsafe这里提供的CAS操作有三个操作数：内存地址，预期原始值，新值。在执行CAS操作的时候，会比较此内存位置中的值是否等于预期原始值，如果是，则将位置赋予新值并返回true，否则直接返回false。CAS的底层实现其实是依赖CPU提供的cmpxchg原子操作指令以及lock指令前缀，[内容详见此处](./JAVA并发编程的根基——CAS.md)。
 
 #### 使用案例
 
