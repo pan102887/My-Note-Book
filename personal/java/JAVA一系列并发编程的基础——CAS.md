@@ -131,7 +131,7 @@ inline T Atomic::PlatformCmpxchg<4>::operator()(T volatile* dest,
   return exchange_value;
 }
 ```
-从上面的源代码中可以看到，X86结构下"Compare and Swap"的实现是通过GCC扩展语法__asm__ volatile，在C++代码中内联了GCC汇编代码块，通过汇编代码调用cpu提供的**lock指令前缀**和cmpxchg指令实现的。由于是GCC的汇编模板语法，与一般见到的汇编语法有所区别，关于这部分，可以在这篇文章里了解更多。 --> [GCC内敛汇编](https://www.jianshu.com/p/1782e14a0766)
+从上面的源代码中可以看到，X86结构下"Compare and Swap"的实现是通过GCC扩展语法"__asm__ volatile"，在C++代码中内联了GCC汇编代码块，汇编代码调用cpu提供的**lock指令前缀**和**cmpxchg指令**实现的。由于是GCC的汇编模板语法，与一般见到的汇编语法有所区别，关于这部分，可以在这篇文章里了解更多。 --> [GCC内敛汇编](https://www.jianshu.com/p/1782e14a0766)
 
 以intel处理器为代表的X86的LOCK指令前缀与CMPXCHG指令相关详细介绍，有兴趣可以可以在《Intel 64 and IA-32 Architectures Software Developer's Manual》中找到。AMD处理器同理。下面展示其中的一部分节选内容。
 
