@@ -1,0 +1,76 @@
+% !TeX root = 贷款利率计算.tex
+\RequirePackage{fix-cm}
+\RequirePackage{amsmath,mathrsfs,amsfonts,amssymb}
+\documentclass[a4paper, 12pt, draft]{article}
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath}
+\usepackage{mathabx}
+\usepackage{amsfonts}
+
+\title{各种贷款还款方式利息计算}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\section{等额本息}
+
+
+等额本息的还款方式特点是每一期的还款金额都相等。
+设每期还款额为x，本金为m，
+每期利率为r（如果还款周期是每个月的话，这个通常是年利率/12），
+总期数为n，则有：
+
+$$ x = m \dfrac{ r (1+r)^n }{ (1+r)^n - 1} $$
+
+\newpage
+\subsection[利息公式推导]{等额本息还款方式利息公式推导}
+其推导过程可以设$C_n$为第n期还款后，仍欠银行的金额，则有：
+
+
+\begin{equation}
+    \begin{aligned}
+        C_1 & = m (1+r) - x                                             \\
+        \\
+        C_2 & = C_1 (1+r) - x                                           \\
+            & = [m (1+r) - x] (1+r) - x                                 \\
+            & = m (1+r)^2 - x [1 + (1+r)^1]                             \\
+            & = m (1+r)^2 - x [(1+r)^0 + (1+r)^1]                       \\
+        \\
+        C_3 & = C_2 (1+r) - x                                           \\
+            & = [ m (1+r)^2 - x [(1+r)^0 + (1+r)^1] ] (1+r) - x         \\
+            & = m (1+r)^3 - x [ (1+r)^0 + (1+r)^1 + (1+r)^2 ]           \\
+        \\
+            & \vdots                                                    \\
+        C_n & = m (1+r)^n - x \sum_{ i=0 }^{ n-1 } (1+r)^i              \\
+            & = m (1+r)^n - x \dfrac{ (1+r)^n - 1 }{ r }                \\
+        \\
+            & \because \space 还完第N期还款后，仍欠银行的金额为0，即C_n = 0               \\
+            & \therefore m (1 + r)^n - x \dfrac{ (1+r)^n - 1 }{ r } = 0 \\
+            & \therefore x = m \dfrac{ r (1+r)^n }{ (1+r)^n - 1 }       \\
+        \\
+    \end{aligned}
+\end{equation}
+
+
+\newpage
+\subsection{利息的计算}
+由于每期固定还款额度为$x$，还款期数为$n$,本金为$m$，因此总利息可以使用$xn-m$表示，设函数$t(m, r, n)$表示总利息，有：
+
+\begin{equation}
+    \begin{aligned}
+        t(m, r, n) & = m n \dfrac{ r (1 + r)^n }{ (1 + r)^n - 1 } - m     \\
+                   & = m [ n \dfrac{ r (1 + r)^n }{ (1 + r)^n - 1 } - 1 ]
+    \end{aligned}
+\end{equation}
+
+\subsection{TODO LIST}
+\subsubsection{使用Python实现利息计算器}
+可以看到，总利息的大小与本金，利率，以及还款期数有关。并且上文给出了计算公式。
+现在根据计算公式，使用Python，写一个根据本金，利率，还款周期计算利息的方法。
+要求精度保留小数点后8位。
+
+
+
+\end{document}
