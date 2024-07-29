@@ -1,0 +1,34 @@
+% !TeX root = 函数的极限推导证明.tex
+\RequirePackage{fix-cm}
+\RequirePackage{amsmath,mathrsfs,amsfonts,amssymb}
+\documentclass[a4paper, 12pt, draft]{article}
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath}
+\usepackage{mathabx}
+\usepackage{amsfonts}
+
+
+\title{函数的极限推导证明}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\newpage
+\section{基本初等函数及其导数}
+
+    \subsection{$ \text{证明} \lim_{n \to + \infty } \left(1 + \dfrac{x}{n} \right)^{n} = e^x $}
+    
+    \begin{math}
+        \begin{aligned}
+            \because & \left( 1+\dfrac{x}{n} \right)^{n} = e^{n \ln{\left(1 + \dfrac{x}{n} \right)} } \\
+            & \lim_{n \to +\infty} n \ln{\left(1 + \dfrac{x}{n} \right)} = x \\
+            \therefore & \lim_{n \to + \infty } \left(1 + \dfrac{x}{n} \right)^{n} = e^x
+        \end{aligned}
+    \end{math}
+    
+
+
+\end{document}
