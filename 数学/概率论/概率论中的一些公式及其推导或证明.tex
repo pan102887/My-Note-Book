@@ -1,8 +1,69 @@
 % !Tex root = 概率论中的一些公式及其推导或证明.tex
-\RequirePackage{fix-cm}
-\RequirePackage{amsmath,mathrsfs,amsfonts,amssymb}
+
+\RequirePackage{fix-cm,amsmath,mathrsfs,amsfonts,amssymb}
 \documentclass[a4paper, 12pt, draft]{article}
 \usepackage[UTF8]{ctex}
 \usepackage{amsmath}
 \usepackage{mathabx}
 \usepackage{amsfonts}
+
+\title{概率论中的一些公式及其推导或证明}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+
+    \section{组合数的计算} 
+
+    \begin{equation*}
+        \begin{aligned}
+            C_{n}^{m} &= \dfrac{n(n-1) \cdots (n - m + 1)}{m!} \\
+                      &= \dfrac{A_n^m}{m!} = \dfrac{n!}{m!(n-m)!}
+        \end{aligned}
+    \end{equation*}
+
+
+    \section{二项分布}
+    在n次独立重复试验（伯努利试验）中，事件A发生的次数X服从二项分布，记为$X \sim B(n, p)$，其概率分布为：
+    
+    \begin{equation*}
+    P(X=k) = C_n^k p^k (1-p)^{n-k}
+    \end{equation*}
+
+
+    \section{泊松分布}
+    在n重伯努利试验中，记A事件在一次试验中发生的概率为$p_n$，如果当$n \to + \infty$时，有$np_n \to \lambda(>0)$，则
+
+    \begin{equation*}
+    \lim_{n \to + \infty} \binom{n}{k} p_n^k (1-p_n)^{n-k} = \dfrac{\lambda^k}{k!} e^{-\lambda}
+    \end{equation*}
+
+    证明：
+    设$np_{n} = \lambda_{n}$，则有$p_n=\dfrac{\lambda_{n}}{n}$
+
+    \begin{equation*}
+    \begin{aligned}
+        \binom{n}{k} p_n^k (1-p_n)^{n-k} &= \dfrac{n(n-1) \cdots (n-k+1)}{k!} \left( \dfrac{\lambda_n}{n} \right)^{k} \left( 1 - \dfrac{\lambda_n}{n} \right)^{n-k} \\
+        &= \dfrac{\lambda_n^{k}}{k!} \left( \dfrac{n}{n}\right)\left( 1-\dfrac{1}{n} \right) \cdots \left( 1-\dfrac{k-1}{n} \right)\left( 1 - \dfrac{\lambda_n}{n} \right)^{n-k} .
+    \end{aligned}
+    \end{equation*}
+
+    对于固定的K，有
+
+    \begin{equation*}
+    \begin{aligned}
+        \lim_{n \to + \infty} \lambda_n = \lambda \\
+        \lim_{n \to + \infty} \left(1 - \dfrac{\lambda_n}{n}\right)^{n-k} = e^{-\lambda}, \\
+    \end{aligned}
+    \end{equation*}
+
+    因此有
+
+    \begin{equation*}
+    \lim_{n \to + \infty} \binom{n}{k} p_n^k (1-p_n)^{n-k} = \dfrac{\lambda^k}{k!} e^{-\lambda}
+    \end{equation*}
+
+
+\end{document}

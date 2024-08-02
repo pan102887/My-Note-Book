@@ -1,6 +1,5 @@
 % !TeX root = 函数的极限推导证明.tex
-\RequirePackage{fix-cm}
-\RequirePackage{amsmath,mathrsfs,amsfonts,amssymb}
+\RequirePackage{fix-cm,amsmath,mathrsfs,amsfonts,amssymb}
 \documentclass[a4paper, 12pt, draft]{article}
 \usepackage[UTF8]{ctex}
 \usepackage{amsmath}
@@ -17,17 +16,71 @@
 \tableofcontents
 
 \newpage
-\section{基本初等函数及其导数}
+\section{函数的极限}
+    \subsection{一些重要的极限}
 
-    \subsection{$ \text{证明} \lim_{n \to + \infty } \left(1 + \dfrac{x}{n} \right)^{n} = e^x $}
+    \subsubsection{ 证明当$a > 1$时，$\lim\limits_{x \to 0} a^x = 1$ }
+    解：$\forall \varepsilon > 0$，令$|a^x-1| < \varepsilon$,即$1 - \varepsilon < a^x < 1 + \varepsilon$
+    ，因此只需要$ \log_a{1 - \varepsilon}  $ 
+
+    \subsubsection{ 证明$\lim\limits_{x \to 0} \dfrac{\ln(1+x)}{x} = 1 $ }
+    解法一：$\forall \varepsilon > 0$，令$\left|\dfrac{\ln(1+x)}{x} - 1 \right| < \varepsilon$，
+    则有$ 1-\varepsilon < \dfrac{\ln_{\left( 1+x \right)} }{x} < 1 + \varepsilon $
     
-    \begin{math}
+    解法二：
+    \[
+        \begin{aligned}
+              & \lim\limits_{ x \to 0 } \dfrac{ \ln{\left( 1+x \right)} }{x} \\
+            = & \lim\limits_{ x \to 0 } \ln{\left(1 + x\right)^{\dfrac{1}{x}}} \\
+            = & \ln{ \lim\limits_{ x \to 0 }  \left(1 + x\right)^{\dfrac{1}{x}}} \\
+            = & \ln{e} \\ 
+            = & 1
+        \end{aligned}
+    \]
+
+    \subsubsection{$ \text{证明} \lim\limits_{n \to + \infty } \left(1 + \dfrac{x}{n} \right)^{n} = e^x $}    
+    \[
         \begin{aligned}
             \because & \left( 1+\dfrac{x}{n} \right)^{n} = e^{n \ln{\left(1 + \dfrac{x}{n} \right)} } \\
-            & \lim_{n \to +\infty} n \ln{\left(1 + \dfrac{x}{n} \right)} = x \\
-            \therefore & \lim_{n \to + \infty } \left(1 + \dfrac{x}{n} \right)^{n} = e^x
+            & \lim\limits_{n \to +\infty} n \ln{\left(1 + \dfrac{x}{n} \right)} = x \\
+            \therefore & \lim\limits_{n \to + \infty } \left(1 + \dfrac{x}{n} \right)^{n} = e^x
         \end{aligned}
-    \end{math}
+    \]
+
+    \subsubsection{证明 $ \lim\limits_{x \to 0 } \dfrac{\sin{x}}{x} = 1 $}
+
+
+    \subsubsection{证明 $\lim\limits_{x \to \infty} \left( 1 + \dfrac{1}{x} \right)^{x}$ 有界}
+
+    解法一：夹逼法
+    \begin{equation*}
+        \begin{aligned}
+            \left( 1 + \dfrac{1}{x} \right)^{x} &= \sum\limits_{n = 0}^{\infty} \binom{n}{x} \dfrac{1}{x^n} \\
+                        &= 1 + \dfrac{x}{1!} \cdot \dfrac{1}{x} + \dfrac{x(x-1)}{2!} \cdot \dfrac{1}{x^2} + \cdots + \frac{x(x-1)\cdot \cdots \cdot (x - x + 1)}{x!} \cdot \dfrac{1}{x^x} \\ 
+                        &= 1 + 1 + \dfrac{1}{2!} \left( 1 - \dfrac{1}{x}  \right) + \dfrac{1}{3!} \left(1 - \dfrac{1}{x} \right)\left(1 - \dfrac{2}{x} \right) + \cdots \\
+                        & + \dfrac{1}{x!} \left(1 - \dfrac{1}{x} \right)\left(1 - \dfrac{2}{x} \right) \cdots \left(1 - \dfrac{x - 1}{x} \right)
+        \end{aligned}
+    \end{equation*}
+    设$X_n = \left(1+ \frac{1}{n}\right)^n$时，有
+    \begin{equation*}
+        \begin{aligned}
+            X_{n+1} = &\left( 1 + \dfrac{1}{n+1} \right)^{n+1} \\
+                = & 1 + 1 + \dfrac{1}{2!} \left( 1 - \dfrac{1}{n+1}  \right) + \dfrac{1}{3!} \left(1 - \dfrac{1}{n+1} \right)\left(1 - \dfrac{2}{n+1} \right) + \cdots \\
+                & + \dfrac{1}{(n+1)!} \left(1 - \dfrac{1}{n+1} \right)\left(1 - \dfrac{2}{n+1} \right) \cdots \left(1 - \dfrac{n - 1}{n+1} \right)\left(1 - \dfrac{n}{n+1} \right)
+        \end{aligned}
+    \end{equation*}
+    
+    
+    $X_n < X_{n+1}$，即$X_{n}$单调递增，并且有
+    
+    \begin{5pt}
+        \[
+        \begin{aligned}
+            X_n \leq & 1 + \dfrac{1}{1!} + \dfrac{1}{2!} + \cdots + \dfrac{1}{n!} < 1 + 1 + \dfrac{1}{2}
+            + \dfrac{1}{2^2} + \cdots + \dfrac{1}{2^n-1}
+        \end{aligned}
+        \]
+    \end{5pt}
     
 
 
