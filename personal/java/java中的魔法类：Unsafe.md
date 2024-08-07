@@ -1,5 +1,5 @@
-# Java魔法Unsafe类
-- [Java魔法Unsafe类](#java魔法unsafe类)
+# Java中的魔法类——Unsafe
+- [Java中的魔法类——Unsafe](#java中的魔法类unsafe)
   - [介绍](#介绍)
   - [Unsafe提供的API大致功能](#unsafe提供的api大致功能)
     - [系统相关](#系统相关)
@@ -17,7 +17,7 @@
       - [典型案例](#典型案例)
 
 ## 介绍
-Unsafe是java在sun.misc包下的一个类，此类主要提供了一些用于执行低级别、不安全操作的方法，比如直接访问系统内存资源，自主管理内存资源等等。Unsafe在许多并发编程场景中都有它的身影，例如ConcurrentHashMap，Netty的NIO库中等等。但是正如Unsafe名字本身那样，由于提供了类似C语言中指针一样操作内存空间的能力，这也使得随着它的使用会增加应用程序发生指针安全方面的风险，使用不当容易产生内存泄漏，指针异常等问题，使得java这种安全的语言变得不再“安全”，因此Unsafe的使用必须要谨慎。
+Unsafe是java在sun.misc包下的一个类，此类主要提供了一些用于执行低级别、不安全操作的方法，比如直接访问系统内存资源，。Unsafe在许多并发编程场景中都有它的身影，例如ConcurrentHashMap，NIO库中等等。但是正如Unsafe名字本身那样，由于提供了类似C语言中指针一样操作内存空间的能力，这也使得随着它的使用会增加应用程序发生指针安全方面的风险，使用不当容易产生内存泄漏，指针异常等问题，使得java这种安全的语言变得不再“安全”，因此Unsafe的使用必须要谨慎。
 
 如Unsafe中的源码所示，Unsafe类提供getInstance()获取单例对象，但仅当调用Unsafe方法的类为引导类加载器所加载时才合法，否则抛出异常。
 ```java
@@ -110,7 +110,7 @@ public native Class<?> defineAnonymousClass(Class<?> hostClass, byte[] data, Obj
 
 
 ### CAS操作
-CAS操作为Java中一系列原子操作的实现提供了重要支持，在例如Atomic一系列相关的类，AQS以及ConcurrentHashMap等场景都有广泛使用，也是实现并发算法的常用技术。那什么是CAS，CAS的全称是Compare And Swap，即比较并替换，Unsafe这里提供的CAS操作有三个操作数：内存地址，预期原始值，新值。在执行CAS操作的时候，会比较此内存位置中的值是否等于预期原始值，如果是，则将位置赋予新值并返回true，否则直接返回false。CAS的底层实现其实是依赖CPU提供的cmpxchg原子操作指令以及lock指令前缀，关于这部分[内容详见此处](./JAVA并发编程的根基——CAS.md)。
+CAS操作为Java中一系列原子操作的实现提供了重要支持，在例如Atomic一系列相关的类，AQS以及ConcurrentHashMap等场景都有广泛使用，也是实现并发算法的常用技术。那什么是CAS，CAS的全称是Compare And Swap，即比较并替换，Unsafe这里提供的CAS操作有三个操作数：内存地址，预期原始值，新值。在执行CAS操作的时候，会比较此内存位置中的值是否等于预期原始值，如果是，则将位置赋予新值并返回true，否则直接返回false。CAS的底层实现其实是依赖CPU提供的cmpxchg原子操作指令以及lock指令前缀，[内容详见此处](./JAVA并发编程的根基——CAS.md)。
 
 #### 使用案例
 
@@ -213,12 +213,12 @@ AQS唤醒后继节点的操作
 ```
 
 ### 内存操作
-主要有堆外内存的分配、拷贝、释放、对给定地址进行读/写操作等方法。在JAVA中创建的对象通常都是出于堆内存中，堆内存由JVM管控，遵循JVM的GC内存管理机制。相对的，堆外内存则不属于JVM的管控范围，java对于堆外内存的管理依赖于Unsafe所提供的一系列操作堆外内存的native方法。
+主要有堆外内存的分配、拷贝、释放、对给定地址进行读/写操作等方法。在JAVA中创建的对象通常是存储在java堆中，堆内存由JVM的GC机制管控，遵循JVM的GC内存管理规则。相对的，堆外内存则一般默认不在CG机制管控范围中，java对于堆外内存的管理依赖于Unsafe所提供的一系列操作堆外内存的native方法。这些native方法提供的功能大致如下：
 
 - 分配、拷贝、释放**堆外**内存
 - 设置、获取给定地址中的值
 
-在目前我们普遍使用的java 8版本中，Unsafe关于内存操作的方法主要如下
+以java 8为例，Unsafe中提供关于内存操作的方法主要如下
 ```java
 //分配内存, 类似于C中的malloc函数
 public native long allocateMemory(long bytes);
@@ -242,14 +242,14 @@ public native void putByte(long address, byte x);
 ```
 
 #### 什么场景会使用到堆外内存
-- 提升程序I/O性能：在常见的的I/O通信过程中，会存在将堆内内存拷贝到堆外内存的操作，而对于需要频繁进行内存数据拷贝并且生命周期比较短的暂存数据，直接存放到堆外内存。
+- 提升程序I/O性能：java如果和外界通讯，需要把java堆中的数据复制到非java堆，而如果直接使用native内存存储这些数据，则可以避免这个复制的过程。对于需要频繁进行外界通讯的I/O场景，直接使用堆外内内存，可以显著提升性能。
 - 避免GC的影响：如果有存在生命周期很长，不需要GC管理的对象，使用堆外内存可以避免GC带来的性能影响。
 - 性能优化：在性能敏感的应用中，使用堆外内存可以减少GC的频率和时间，从而提高应用性能。
 - ....
 
 #### 典型案例
 
-被广泛用于通信缓冲池的DirectByteBuffer中，其里面用于堆外内存的创建、使用、销毁等逻辑均通过Unsafe提供的api来实现。如其构造函数中给出的代码所示，在创建DirectByteBuffer时，通过Unsafe中的allocateMemory来进行内存的分配，并通过setMemory来进行内存的初始化。并在最后创建Cleaner对象，用于跟踪此DirectByteBuffer对象的垃圾回收，当此DirectByteBuffer对象被回收时，分配的堆外内存将被Deallocator释放。Cleaner的机制[详情请见](Cleaner的工作原理.md)
+被广泛用于通信缓冲池的`DirectByteBuffer`中，其里面用于堆外内存的创建、使用、销毁等逻辑均通过Unsafe提供的api来实现。如其构造函数中给出的代码所示，在创建DirectByteBuffer时，通过Unsafe中的allocateMemory来进行内存的分配，并通过setMemory来进行内存的初始化。并在最后创建Cleaner对象，用于跟踪此DirectByteBuffer对象的垃圾回收，当此DirectByteBuffer对象被回收时，分配的堆外内存将被Deallocator释放。Cleaner的机制[详情请见](Cleaner的工作原理.md)
 
 ```java
 // Primary constructor

@@ -1,0 +1,201 @@
+% !TeX root = 基本初等函数相关公式及其推导过程.tex
+\RequirePackage{fix-cm}
+\RequirePackage{amsmath,mathrsfs,amsfonts,amssymb}
+\documentclass[a4paper, 12pt, draft]{article}
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath}
+\usepackage{mathabx}
+\usepackage{amsfonts}
+
+
+\title{基本初等函数的相关公式及其推导过程}
+\author{}
+\date{}
+
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\begin{abstract}
+    本文主要介绍了基本初等函数的一些常用的公式，以及其推导过程。
+\end{abstract}
+
+\newpage
+\section{对数函数}
+    \subsection{和公式}
+    \begin{equation}\label{eq1.1}
+        \log_a{b} + \log_a{c} = \log_a{bc}
+    \end{equation}
+    推导过程:
+
+    \begin{equation*}
+        \begin{aligned}
+            \because   b  &= a^{\log_{a}{b}}, c = a^{\log_{a}{c}}   \\
+            \therefore bc &= a^{\log_{a}{b}} a^{\log_{a}{c}}        \\
+                          &= a^{(\log_{a}{b} + \log_{a}{c})}        \\
+                                                                    &\\
+            \therefore \log_{a}{bc} &= \log_{a}{a^{(\log_{a}{b} + \log_{a}{c})}} \\
+                                    &= \log_{a}{b} + \log_{a}{c}
+        \end{aligned}    
+    \end{equation*} 
+
+    \subsection{差公式}
+    \begin{equation}\label{eq1.2}
+        \log_{a}{b} - \log_{a}{c} = \log_{a}{ \dfrac{b}{c} }
+    \end{equation}
+    
+    推导过程:
+    \[
+    \begin{aligned}
+        \because   b            &= a^{\log_{a}{b}}, c = a^{\log_{a}{c}}     \\
+        \therefore \dfrac{b}{c}  &= \dfrac{a^{\log_{a}{b}}}{a^{\log_{a}{c}}}  \\
+                                &= a^{(\log_{a}{b} + \log_{a}{c})}          \\
+                                &                                           \\
+        \therefore \log_{a}{\dfrac{b}{c}} &= \log_{ a }{ a ^ {(\log_{a}{b}-\log_{a}{c})} } \\
+                                &= \log_{a}{b} - \log_{a}{c}
+    \end{aligned}
+    \]
+
+    \newpage
+    \subsection{换底公式}
+    \begin{equation}\label{eq1.3}
+        \log_{a}{b} = \dfrac{ \log_{n}{a} }{ \log_{n}{b} }
+    \end{equation}
+    推导过程：
+    \[
+    \begin{aligned}
+        \because    \log_{n}{b} &= \log_{n}{a} \log_{a}{b} \\
+        \therefore  \log_{a}{b} &= \dfrac{ \log_{n}{b} }{ \log_{n}{a} }
+    \end{aligned}
+    \]
+
+
+    \subsection{真底互换公式}
+    \begin{equation}\label{eq1.4}
+        \log_{a}{b} = \dfrac{1}{ \log_{b}{a} }
+    \end{equation}
+    推导过程：
+    \[
+    \begin{aligned}
+        \because    \log_{a}{a} &= \log_{a}{b} \log_{b}{a} = 1 \\
+        \therefore  \log_{a}{b} &= \dfrac{1}{ \log_{b}{a} }
+    \end{aligned}
+    \]
+
+
+    \subsection[未知公式]{不知道是什么公式}
+    \begin{equation}\label{1.5}
+        \log_{a}{b} = \dfrac{ \log_{a}{c} }{ \log_{b}{c} }
+    \end{equation}
+    推导过程：
+    \[
+    \begin{aligned}
+        & \because \log_{a}{c} = \log_{a}{b^{ \log_{b}{c} }} = \log_{b}{c} \log_{a}{b} \\
+        & \therefore \log_{a}{b} = \dfrac{ \log_{a}{c} }{ \log_{b}{c} }
+    \end{aligned}
+    \]
+
+    \subsection[求导公式]{对数函数求导公式}
+    设$f(x)=\log_{a}{x}$，则$f(x)$的导数$f'(x)$可以如此推导：
+    \begin{equation}
+        \begin{aligned}
+            f'(x) &= \lim\limits_{h \to 0} \dfrac{\log_{a}{(x + h)} - \log_{a}{x}}{h} \\
+              &= \lim\limits_{h \to 0} \log_{a}{\left[ \left( 1 + \dfrac{h}{x} \right)^{\dfrac{x}{h}} \right]^{\dfrac{1}{x}}} \\
+              &= \lim\limits_{ h \to 0 } \dfrac{\ln{a}}{\dfrac{1}{x} \ln{e}} = \ln{a}x
+        \end{aligned}
+    \end{equation}
+    
+
+    \newpage
+    \section{三角函数}
+    \subsection{诱导公式}
+
+    \paragraph{公式一}
+    \begin{equation}
+        \begin{aligned}
+            &\sin{(\alpha + 2k\pi)} = \sin{\alpha} \qquad (k \in \mathbb{Z} ) \\
+            &\cos{(\alpha + 2k\pi)} = \cos{\alpha} \qquad (k \in \mathbb{Z} ) \\
+            &\tan{(\alpha + 2k\pi)} = \tan{\alpha} \qquad (k \in \mathbb{Z} )
+        \end{aligned}
+    \end{equation}
+
+    \paragraph{公式二}
+    \begin{equation}
+        \begin{aligned}
+            &\sin{(\alpha + \pi)} = -\sin{\alpha} \\
+            &\cos{(\alpha + \pi)} = -\cos{\alpha} \\
+            &\tan{(\alpha + \pi)} =  \tan{\alpha} \\
+            &\cot{(\alpha + \pi)} =  \cot{\alpha}
+        \end{aligned}
+    \end{equation}
+
+    \paragraph{公式三}
+    \begin{equation}
+        \begin{aligned}
+            &\sin{(-\alpha)} = -\sin{\alpha} \\
+            &\cos{(-\alpha)} =  \cos{\alpha} \\
+            &\tan{(-\alpha)} =  -\tan{\alpha} \\
+            &\cot{(-\alpha)} =  -\cot{\alpha}
+        \end{aligned}
+    \end{equation}
+
+    \paragraph{公式四}
+    \begin{equation}
+        \begin{aligned}
+            &\sin{(\pi - \alpha)} = \sin{\alpha} \\
+            &\cos{(\pi - \alpha)} = -\cos{\alpha} \\
+            &\tan{(\pi - \alpha)} = -\tan{\alpha} \\
+            &\cot{(\pi - \alpha)} = -\cot{\alpha}
+        \end{aligned}
+    \end{equation}
+
+    \paragraph{公式五}
+    \begin{equation}
+        \begin{aligned}
+            &\sin{(\alpha + \dfrac{k\pi}{2})} = \sin{\alpha} \\
+            &\cos{(\alpha + \dfrac{k\pi}{2})} = -\cos{\alpha} \\
+            &\tan{(\alpha + \dfrac{k\pi}{2})} = -\tan{\alpha} \\
+            &\cot{(\alpha + \dfrac{k\pi}{2})} = -\cot{\alpha}
+        \end{aligned}
+    \end{equation}
+
+
+    \subsection{二角和差公式}
+    \begin{equation}\label{二角和差公式}
+        \cos{(\alpha - \beta)} = \sin{\alpha}\sin{\beta} + \cos{\alpha}\cos{\beta}
+    \end{equation}
+
+    推导过程如下：
+    设与x轴的夹角分别为$\alpha$和$\beta$的两个单位向量为$\vec{A}$和$\vec{B}$，
+    则有:
+    \[
+    \begin{aligned}
+        &\vec{A} = (\sin{\alpha}, \cos{\alpha}) \quad \vec{B} = (\sin{\beta}, \cos{\beta})     \\
+        \therefore &\vec{A} \cdot \vec{B} = \sin{\alpha}\sin{\beta} + \cos{\alpha}\cos{\beta}  \\
+        \therefore &\vec{A} \cdot \vec{B} = |\vec{A}||\vec{B}|\cos{(\alpha - \beta)}           \\
+        \therefore &\sin{\alpha}\sin{\beta} + \cos{\alpha}\cos{\beta} = \cos{(\alpha - \beta)} \\
+    \end{aligned}
+    \]
+    将$\beta = -\beta$带入上式，则有
+    \begin{equation}\label{2.3}
+        \cos{(\alpha + \beta)} = \cos{\alpha}\cos{\beta} - \sin{\alpha}\sin{\beta}
+    \end{equation}
+    再将$\beta = \beta - \dfrac{\pi}{2}$带入上式，则有
+    \[
+    \cos{(\alpha + \beta - \dfrac{\pi}{2})} = \cos{\alpha}\cos{(\beta - \dfrac{\pi}{2})} - \sin{\alpha}\sin{(\beta - \dfrac{\pi}{2})}
+    \]
+    因此可得
+    \begin{equation}\label{2.4}
+        \sin{(\alpha + \beta)} = \cos{\alpha}\sin{\beta} + \sin{\alpha}\cos(\beta)
+    \end{equation}
+    同理，将$\beta = -\beta$带入上式，则有:
+    \[
+    \sin{(\alpha - \beta)} = \cos{\alpha}\sin{(-\beta)}+\sin{\alpha}\cos{(-\beta)}
+    \]
+    易得
+    \begin{equation}\label{2.5}
+        \sin{(\alpha - \beta)} = \sin{\alpha}\cos{\beta} - \cos{\alpha}\sin{\beta}
+    \end{equation}
+    
+\end{document}

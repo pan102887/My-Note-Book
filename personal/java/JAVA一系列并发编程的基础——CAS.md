@@ -1,6 +1,8 @@
-# JAVA并发编程的根基：CAS
 
-在JAVA中，一系列的
+
+CAS是一个强有力的原子操作，无需锁就可以对共享变量进行线程安全的更新。相比于通过传统的锁（sys_futex）来访问共享变量，CAS可以有更少的争用，更高的并发性。
+CAS操作需要三个操作数，内存位置V，旧的预期值A，即将更新的新值B。CAS操作仅在(V)的值等于A时，才会将(V)的值更新为B，否则不会更新。整个过程是原子的。
+
 
 ## 底层实现
 openJDK中关于CAS操作实现的相关JNI C++代码
@@ -129,7 +131,7 @@ inline T Atomic::PlatformCmpxchg<4>::operator()(T volatile* dest,
   return exchange_value;
 }
 ```
-从上面的源代码中可以看到，X86结构下"Compare and Swap"的实现是通过GCC扩展语法__asm__ volatile，在C++代码中内联了GCC汇编代码块，通过汇编代码调用cpu提供的**lock指令前缀**和cmpxchg指令实现的。由于是GCC的汇编模板语法，与一般见到的汇编语法有所区别，关于这部分，可以在这篇文章里了解更多。 --> [GCC内敛汇编](https://www.jianshu.com/p/1782e14a0766)
+从上面的源代码中可以看到，X86结构下"Compare and Swap"的实现是通过GCC扩展语法"__asm__ volatile"，在C++代码中内联了GCC汇编代码块，汇编代码调用cpu提供的**lock指令前缀**和**cmpxchg指令**实现的。由于是GCC的汇编模板语法，与一般见到的汇编语法有所区别，关于这部分，可以在这篇文章里了解更多。 --> [GCC内敛汇编](https://www.jianshu.com/p/1782e14a0766)
 
 以intel处理器为代表的X86的LOCK指令前缀与CMPXCHG指令相关详细介绍，有兴趣可以可以在《Intel 64 and IA-32 Architectures Software Developer's Manual》中找到。AMD处理器同理。下面展示其中的一部分节选内容。
 
