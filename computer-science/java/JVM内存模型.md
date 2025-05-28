@@ -8,6 +8,8 @@ JVM中的内存区域，有的是随着虚拟机进程的启动一直存在，�
 <img src='./imgs/JVM_MEMORY_MODULE.png' width='500'/></br>
 java虚拟机运行时数据区
 </p>
+
+
 ### 程序计数器(Program Counter Register)
 其功能与CPU中的PC寄存器的功能类似，可以看作当前线程所执行字节码的行号指示器，是线程独立的。如果该线程当前执行的是native方法，这个计数器的值则应该为空(Undefined)。“此内存区域是是唯一一个在《java虚拟机规范》中没有规定任何OutOfMemoryError情况的区域”——《深入理解java虚拟机》
 
