@@ -1,4 +1,36 @@
 # Commonly Used Instructions in Assembly Language
+## REGISTERS
+### x86_64 Registers
+The x86_64 architecture provides several general-purpose and special-purpose registers. Here are the most commonly used:
+
+#### General-Purpose Registers
+| Register | Description                        |
+|----------|------------------------------------|
+| RAX      | Accumulator register               |
+| RBX      | Base register                      |
+| RCX      | Counter register                   |
+| RDX      | Data register                      |
+| RSI      | Source index for string operations |
+| RDI      | Destination index for string ops   |
+| RBP      | Base pointer (stack frame)         |
+| RSP      | Stack pointer                      |
+| R8–R15   | Additional general-purpose regs    |
+
+Each register can be accessed in different sizes:
+- 64-bit: RAX, RBX, etc.
+- 32-bit: EAX, EBX, etc.
+- 16-bit: AX, BX, etc.
+- 8-bit: AL, BL, etc.
+
+#### Special-Purpose Registers
+| Register | Description                        |
+|----------|------------------------------------|
+| RIP      | Instruction pointer                |
+| RFLAGS   | Flags register                     |
+| CS, DS, ES, FS, GS, SS | Segment registers    |
+
+These registers are essential for data movement, arithmetic, logic, and control flow in assembly programming.
+
 ## Data Movement Instructions
 ### MOV
 MOV is used to move data from one location to another. It can move data between registers, memory locations, and immediate data.
