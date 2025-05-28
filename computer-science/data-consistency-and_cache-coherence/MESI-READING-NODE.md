@@ -1,7 +1,7 @@
 # *MESI PROTOCOL* - READING NOTE
 
 source: [A LOW-OVERHEAD COHERENCE SOLUTION FOR MULTIPROCESSORS
-WITH PRIVATE CACHE MEMORIES](./A%20LOW-OVERHEAD%20COHERENCE%20SOLUTION%20FOR%20MULTIPROCESSORS%0AWITH%20PRIVATE%20CACHE%20MEMORIES.pdf)
+WITH PRIVATE CACHE MEMORIES](./MESI.pdf)
 
 ## MESI Protocol Overview
 The MESI protocol (Modified, Exclusive, Shared, Invalid) is a widely used cache coherence protocol in multiprocessor systems. It ensures consistency of data stored in multiple caches by defining four possible states for each cache line:
