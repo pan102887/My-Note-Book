@@ -24,7 +24,7 @@ and Without some type of local memory, it is physically impossible to gain a sig
 A single shared cache for all processors requires a crossbar to allow multiple processors to access the cache simultaneously without conflicts. The crossbar provides a direct connection between each processor and the cache, enabling parallel access and reducing contention.
 
 
-### 1. WHY broadcast-invalidate led to SYSTEM BECOMES SATURATED WITH LESS THEN 4 PROCESSORS WHEN WRITES CONSTITUTE 25% OF THE MEMORY REFERENCES
+### 3. WHY broadcast-invalidate led to SYSTEM BECOMES SATURATED WITH LESS THEN 4 PROCESSORS WHEN WRITES CONSTITUTE 25% OF THE MEMORY REFERENCES
 
 ![problem 1](image.png)
 
