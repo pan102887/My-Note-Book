@@ -1,10 +1,22 @@
-# CPU缓存问题的分析
+# 1. CPU缓存问题的分析
+
+## CPU缓存的发展
 
 Early examples of CPU caches include the Atlas 2[3] and the IBM System/360 Model 85[4][5] in the 1960s. The first CPUs that used a cache had only one level of cache; unlike later level 1 cache, it was not split into L1d (for data) and L1i (for instructions). Split L1 cache started in 1976 with the IBM 801 CPU,[6][7] became mainstream in the late 1980s, and in 1997 entered the embedded CPU market with the ARMv5TE. In 2015, even sub-dollar SoCs split the L1 cache. They also have L2 caches and, for larger processors, L3 caches as well. The L2 cache is usually not split, and acts as a common repository for the already split L1 cache. Every core of a multi-core processor has a dedicated L1 cache and is usually not shared between the cores. The L2 cache, and higher-level caches, may be shared between the cores. L4 cache is currently uncommon, and is generally dynamic random-access memory (DRAM) on a separate die or chip, rather than static random-access memory (SRAM). An exception to this is when eDRAM is used for all levels of cache, down to L1. Historically L1 was also on a separate die, however bigger die sizes have allowed integration of it as well as other cache levels, with the possible exception of the last level. Each extra level of cache tends to be bigger and optimized differently.
 
 Caches (like for RAM historically) have generally been sized in powers of: 2, 4, 8, 16 etc. KiB; when up to MiB sizes (i.e. for larger non-L1), very early on the pattern broke down, to allow for larger caches without being forced into the doubling-in-size paradigm, with e.g. Intel Core 2 Duo with 3 MiB L2 cache in April 2008. This happened much later for L1 caches, as their size is generally still a small number of KiB. The IBM zEC12 from 2012 is an exception however, to gain unusually large 96 KiB L1 data cache for its time, and e.g. the IBM z13 having a 96 KiB L1 instruction cache (and 128 KiB L1 data cache),[8] and Intel Ice Lake-based processors from 2018, having 48 KiB L1 data cache and 48 KiB L1 instruction cache. In 2020, some Intel Atom CPUs (with up to 24 cores) have (multiple of) 4.5 MiB and 15 MiB cache sizes.[9][10]
 
-## CPU架构发展的不同阶段
+## 不同CPU缓存架构带来的问题分析
+
+1. **单核心，无缓存:** 直接从主存中读写数据，不存在一致性问题，但是速度较慢。
+
+2. **单核心单级缓存:** CPU不会直接访问主存，而是先访问一级缓存（L1 Cache）。如果数据在L1 Cache中，则直接使用；否则，从主存中加载到L1 Cache。此时，缓存与主存之间可能会出现不一致的情况，
+
+3. **多核心共享单级缓存** 不确定是否存在这种架构，
+
+### 单核心多级缓存
+
+
 
 1. **单核无缓存CPU** 
    - 直接从主存读取数据，速度较慢。
@@ -23,8 +35,7 @@ Caches (like for RAM historically) have generally been sized in powers of: 2, 4,
     - 需要处理多核之间的缓存一致性问题。
 
 
-
-## 多核心非共享单级缓存CPU
+## 多核心独立单级缓存
 
 假设某个系统有两个CPU，每个CPU都有自己的L1缓存，并且`cache line`的大小为`64 bytes`。现在两个CPU都试图同时访问地址为`Ox40`的内存数据，并导致起始地址为`0x40`的64字节缓存行被加载到各自的L1缓存中。
 
