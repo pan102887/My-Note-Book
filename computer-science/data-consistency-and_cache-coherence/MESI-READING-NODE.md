@@ -33,4 +33,8 @@ When writes constitute 25% of the memory references, the system becomes saturate
 write -> cache line invalidation -> cache misses -> main memory fetches -> performance bottleneck
 
 
-## CONCEPTS
+### 4. What is the Golbal-Directory type of cache coherence protocol
+
+> Status bits are associated with each block in main memory. Upon a cache miss or the first write to a block in cache, the block's global status is checked. An invalidate signal is sent only if another cache has a copy
+
+The Global-Directory type of cache coherence protocol maintains a centralized directory that keeps track of the state of each cache line across all processors. This directory records which caches have copies of each cache line and their states (Modified, Exclusive, Shared, Invalid). When a processor wants to read or write a cache line, it first checks the directory to determine the current state and the location of the data. This approach reduces the need for broadcasting invalidation messages and helps manage cache coherence more efficiently in larger systems.
