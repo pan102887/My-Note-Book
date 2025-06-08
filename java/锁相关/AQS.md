@@ -1,5 +1,10 @@
 # AbstractQueueSynchronizer (AQS)
 
+## 关键词
+
+- 无锁实现线程安全
+- CAS
+
 ## 介绍
 
 AQS提供了一种用于实现依赖于等待队列(FIFO)的阻塞锁和相关同步器（如信号量，事件......）的框架。该类可以成为大多数依赖于用单个原子int值表示状态的同步器的基础（基类）。子类中必须定义一个线程安全的方法用于修改该状态变量的值，并且它需要定义该状态变量什么时候表示该对象被获取或释放。基于这些，该类中的其他方法负责实现（carry out）所有的队列管理和阻塞机制。子类中还可以维护其他状态变量，但只有这个被`getState`,`setState`和`compareAndSet`方法访问的这个原子更新的int状态变量才会被用于同步相关的跟踪。
@@ -10,4 +15,18 @@ AQS提供了一种用于实现依赖于等待队列(FIFO)的阻塞锁和相关�
 
 该类定义了一个嵌套类 AbstractQueuedSynchronizer.ConditionObject，它可以作为支持独占模式的子类的 Condition 实现。对于这种子类，方法 isHeldExclusively 用于报告当前线程是否独占同步状态，方法 release 使用当前的 getState 值完全释放该对象，而方法 acquire 在给定保存的状态值后，最终将该对象恢复到之前的获取状态。AbstractQueuedSynchronizer 的其他方法不会创建这样的条件对象，因此如果无法满足这些约束，请不要使用它。AbstractQueuedSynchronizer.ConditionObject 的行为当然取决于其同步器实现的语义。
 
-## 详解
+## 设计解析
+
+上如上文所说，AQS的设计中是基于等待队列的，
+
+## 待解决问题
+
+1. TODO 在ReentrantLock中，如何实现公平锁与非公平锁两种模式。
+2. TODO 在AQS中的Node类中，有表示节点前驱和后继的prev与next成员变量，但除此之外，还有nextWaiter, nextWaiter的作用是什么？与next有何不同
+3. 在AQS中
+
+要使用AQS，需要根据使用情况，重写以下方法
+
+## 衍生问题
+
+1. Q1: AQS相比于synchronize 关键字使用的监视器锁，它有哪些不一样的地方？
