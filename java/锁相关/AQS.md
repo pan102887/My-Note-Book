@@ -294,32 +294,6 @@ protected final boolean tryAcquire(int acquires) {
 }
 ```
 
-```java
-/**
- * Creates and enqueues node for current thread and given mode.
- *
- * @param mode Node.EXCLUSIVE for exclusive, Node.SHARED for shared
- * @return the new node
- */
-private Node addWaiter(Node mode) {
-    Node node = new Node(Thread.currentThread(), mode);
-    // Try the fast path of enq; backup to full enq on failure
-    Node pred = tail;
-    if (pred != null) {
-        node.prev = pred;
-        if (compareAndSetTail(pred, node)) {
-            pred.next = node;
-            return node;
-        }
-    }
-    enq(node);
-    return node;
-}
-```
-
-
-
-
 ## 待解决问题
 
 1. TODO 在ReentrantLock中，如何实现公平锁与非公平锁两种模式。
