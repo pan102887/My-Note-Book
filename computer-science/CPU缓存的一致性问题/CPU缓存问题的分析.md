@@ -92,7 +92,6 @@ MESI协议也成为`Illinois`协议，MESI中的四个字母代表四种cache li
     | S   | ×   | ×   | √   | √   |
     | I   | √   | √   | √   | √   |
 
-
 在多核心CPU中，由于每个核心都有自己的缓存（如L1、L2缓存），当多个核心访问同一内存地址时，可能会导致缓存中数据不一致的问题（Cache Coherence）。为了解决这一问题，各大厂商采用了不同的缓存一致性协议和硬件机制。以下是主要厂商的解决方案：
 
 ---
@@ -187,14 +186,7 @@ MESI协议也成为`Illinois`协议，MESI中的四个字母代表四种cache li
 
 - Modified, Exclusive, Shared, Invalid。
 - 是最基础的缓存一致性协议，广泛应用于多核处理器。
-
-#### **MOESI 协议**
-
 - 增加了 `Owned` 状态，优化了共享数据的写操作。
-
-#### **MESIF 协议**
-
-- 增加了 `Forward` 状态，优化了共享数据的读取操作。
 
 #### **Directory-based Cache Coherence**
 
