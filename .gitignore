@@ -2,3 +2,80 @@
 
 # Build directories
 build/
+
+# LaTeX auxiliary files
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.brf
+*.fdb_latexmk
+*.fls
+*.fmt
+*.fot
+*.cb
+*.cb2
+*.figlist
+*.makefile
+*.fls
+*.log
+*.lot
+*.lof
+*.toc
+*.idx
+*.ilg
+*.ind
+*.out
+*.pdfsync
+*.synctex
+*.synctex(busy)
+*.synctex.gz
+*.synctex.gz(busy)
+*.run.xml
+
+# LaTeX Beamer
+*.nav
+*.pre
+*.snm
+*.vrb
+
+# LaTeX glossaries
+*.acn
+*.acr
+*.alg
+*.glg
+*.glo
+*.gls
+*.glsdefs
+*.ist
+
+# LaTeX bibliography
+*.bbl
+*.bcf
+*.blg
+*.run.xml
+
+# LaTeX hyperref
+*.out
+
+# LaTeX changes
+*.soc
+
+# LaTeX todo notes
+*.tdo
+
+# LaTeX nomenclature
+*.nlg
+*.nlo
+*.nls
+
+# LaTeX algorithms
+*.alg
+*.loa
+
+# LaTeX tikz & pgf
+*.auxlock
+*.figlist
+*.makefile
+*.fls
+*.fdb_latexmk
