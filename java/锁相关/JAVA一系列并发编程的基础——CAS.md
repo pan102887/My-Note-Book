@@ -1,11 +1,13 @@
-
+# CAS
 
 CAS是一个强有力的原子操作，无需锁就可以对共享变量进行线程安全的更新。相比于通过传统的锁（sys_futex）来访问共享变量，CAS可以有更少的争用，更高的并发性。
 CAS操作需要三个操作数，内存位置V，旧的预期值A，即将更新的新值B。CAS操作仅在(V)的值等于A时，才会将(V)的值更新为B，否则不会更新。整个过程是原子的。
 
 
 ## 底层实现
+
 openJDK中关于CAS操作实现的相关JNI C++代码
+
 ```c++
 #define UNSAFE_ENTRY_SCOPED(result_type, header) \
   JVM_ENTRY(static result_type, header) \
@@ -138,11 +140,11 @@ inline T Atomic::PlatformCmpxchg<4>::operator()(T volatile* dest,
 - CMPXCHG
 
 > The CMPXCHG (compare and exchange) and CMPXCHG8B (compare and exchange 8 bytes) instructions are used to synchronize operations in systems that use multiple processors. The CMPXCHG instruction requires three operands: a source operand in a register, another source operand in the EAX register, and a destination operand. If the values contained in the destination operand and the EAX register are equal, the destination operand is replaced with the value of the other source operand (the value not in the EAX register). Otherwise, the originalvalue of the destination operand is loaded in the EAX register. The status flags in the EFLAGS register reflect the result that would have been obtained by subtracting the destination operand from the value in the EAX register.
-
+>
 > CMPXCHG（比较并交换）和CMPXCHG8B（比较并交换8个字节）指令用于在多处理器系统中同步操作。CMPXCHG指令需要三个操作数：一个在寄存器中的源操作数，另一个在EAX寄存器中的源操作数，以及一个目标操作数。如果目标操作数和EAX寄存器中包含的值相等，则目标操作数将被另一个源操作数的值（不在EAX寄存器中的值）替换。否则，目标操作数的原始值将被加载到EAX寄存器中。EFLAGS寄存器中的状态标志反映了通过从EAX寄存器中的值减去目标操作数的值所获得的结果。
-
+>
 > For multiple processor systems, CMPXCHG can be combined with the LOCK prefix to perform the compare and exchange operation atomically
-
+>
 > 对于多处理器系统，CMPXCHG 可以与 LOCK 前缀结合使用，以原子方式执行比较和交换操作
 
 这里的LOCK指令前缀在CPU上的具体实现，涉及到总线锁，CPU缓存一致性协议等相关内容，这里也不再具体展开，感兴趣可以自行搜查相关资料。
