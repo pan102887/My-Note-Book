@@ -28,11 +28,14 @@
 \RequirePackage{babel}
 \raggedright
 
+\RequirePackage{setspace}
+\setstretch{0.85}
+
 \RequirePackage[fixed]{fontawesome5}
 
 \newcommand{\smallcaps}[1]{\textsc{\lowercase{#1}}}
 
-\RequirePackage[a4paper,nohead,nofoot,hmargin=2.25cm,vmargin=2cm]{geometry}
+\RequirePackage[a4paper,nohead,nofoot,hmargin=0.5cm,vmargin=1cm]{geometry}
 \RequirePackage{relsize}
 \RequirePackage[dvipsnames,svgnames]{xcolor}
 \RequirePackage{tikz}
@@ -105,7 +108,8 @@
 
 \prefix{%
   \hspace*{-1ex}
-  \color{MarkerColour!80!black}\@prefixmarker%
+  % \color{MarkerColour!80!black}\@prefixmarker%
+  \color{MarkerColour!80!black}%
   \hspace*{1ex}%
 }
 
