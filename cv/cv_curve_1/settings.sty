@@ -154,3 +154,31 @@
 
 \RequirePackage[colorlinks=true,allcolors=black,breaklinks=true]{hyperref}
 
+\RequirePackage{xparse}
+\NewDocumentEnvironment{workexp}{ m m m m }{%
+  \par
+  \begingroup
+    \noindent\textbf{#1}~#2\hfill{\small #3——\IfNoValueTF{#4}{至今}{#4}}\par
+    \vspace{2pt}\begin{itemize}[leftmargin=1.2em,topsep=2pt,itemsep=2pt]
+}{%
+    \end{itemize}%
+  \endgroup
+  \vspace{4pt}%
+}
+
+\usepackage{xparse}
+
+% #1 公司  #2 职位  #3 开始  #4 结束（可留空）
+\NewDocumentCommand{\workexperience}{ m m m m }{%
+  \noindent
+  \begingroup
+    \def\EndDate{#4}%
+    \ifx\EndDate\empty
+      \def\EndDate{至今}%
+    \fi
+    \textbf{#1}~#2%
+    \hfill
+    {\small #3--\EndDate}%
+  \par
+  \endgroup
+}

@@ -1,3 +1,5 @@
+% !TEX root = cv-llt.tex
+
 %%%%%%%%%%%%%%%
 % This CV example/template is based on my own
 % CV which I (lamely attempted) to clean up, so that
@@ -9,7 +11,8 @@
 \documentclass[a4paper,skipsamekey,10pt,english]{curve}
 
 % Uncomment to enable Chinese; needs XeLaTeX
-\usepackage[UTF16]{ctex}
+\usepackage[UTF8]{ctex}
+\usepackage{xparse}
 
 
 
@@ -45,6 +48,40 @@
   %% You can use \setmainfont etc; I'm just using these font packages here because they provide OpenType fonts for use by XeLaTeX/LuaLaTeX anyway
   \usepackage[p,osf,swashQ]{cochineal}
   \usepackage[medium,bold]{cabin}
+  
+  % Chinese fonts: set default to a sans-serif family (adjust to installed fonts)
+  % Prefer Source Han Sans (思源黑体); fallback to Noto Sans CJK SC or Microsoft YaHei if not installed.
+  % You can comment/uncomment the line that matches your system.
+  % If Source Han Sans SC is installed:
+  \IfFontExistsTF{Source Han Sans SC}{%
+    \setCJKmainfont{Source Han Sans SC}[
+      BoldFont = Source Han Sans SC Bold,
+      MediumFont = Source Han Sans SC Medium,
+      AutoFakeSlant = 0
+    ]
+    \setCJKsansfont{Source Han Sans SC}[
+      BoldFont = Source Han Sans SC Bold,
+      MediumFont = Source Han Sans SC Medium,
+      AutoFakeSlant = 0
+    ]
+  }{%
+    % Else try Noto Sans CJK SC
+    \IfFontExistsTF{Noto Sans CJK SC}{%
+      \setCJKmainfont{Noto Sans CJK SC}[AutoFakeSlant=0]
+      \setCJKsansfont{Noto Sans CJK SC}[AutoFakeSlant=0]
+    }{%
+      % Fallback to Microsoft YaHei (common on Windows)
+      \IfFontExistsTF{Microsoft YaHei}{%
+        \setCJKmainfont{Microsoft YaHei}
+        \setCJKsansfont{Microsoft YaHei}
+      }{%
+        % Last resort: keep whatever ctex picked
+      }%
+    }%
+  }
+  % Make sans-serif the default Chinese family
+  \renewcommand\CJKfamilydefault{\CJKsfdefault}
+
   % Do not load zi4 with XeLaTeX/LuaLaTeX; use a monospaced font via fontspec if needed
   % \usepackage[varqu,varl,scale=0.9]{zi4}
 \else % If you're using pdfLaTeX or latex
@@ -92,7 +129,11 @@
 
 \begin{document}
 \makeheaders[c]
-\maketitle
+% \maketitle
+% \makefield{\faPhone}{\texttt{13312834541}}
+% \makefield{\faEnvelope[regular]}{\href{mailto:pan102887@gmail.com}{\texttt{example@mail.com}}}
+% \makefield{\faWeixin}{\texttt{wechatid}}
+
 \makerubric{skills}
 \makerubric{employment}
 \makerubric{experience}
