@@ -15,9 +15,11 @@ Kafka通过sendFile系统调用，将数据从磁盘直接传入到网络缓冲�
 - 生产者将多个小消息聚合为一个大的批次发送，减少了网络请求次数。
 - 并在批量处理基础上进行数据压缩，使用（GZIP, Snappy, LZ4等），在不显著增加CPU成本的情况下，减少了传输的数据量，大幅降低了网络IO的压力。
 
+>Kafka supports this with an efficient batching format. A batch of messages can be grouped together, compressed, and sent to the server in this form. The broker decompresses the batch in order to validate it. For example, it validates that the number of records in the batch is same as what batch header states. This batch of messages is then written to disk in compressed form. The batch will remain compressed in the log and it will also be transmitted to the consumer in compressed form. The consumer decompresses any compressed data that it receives.
+
 ### 利用不同分区并行处理
 
-利用
+
  
 ## Kafka架构
 
