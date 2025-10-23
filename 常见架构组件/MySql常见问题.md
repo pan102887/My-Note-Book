@@ -20,6 +20,9 @@
 
 ## InnoDB中的ACID模型
 
+## InnoDB 多版本并发控制（MVCC）
+
+
 
 ## MySQL中表空间的概念
 
