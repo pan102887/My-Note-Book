@@ -54,3 +54,8 @@ InnoDB的多版本并发控制（MVCC）处理二级索引的方式与处理聚�
 
 但是如果 index condition pushdown（ICP） 优化被打开，并且`WHERE`条件中的部分可以仅使用索引字段评估，MySQL server 仍然会将`WHERE`条件中使用索引字段这部分下推到存储引擎层。如果没有找到匹配的记录，则不会访问聚簇索引。如果找到匹配的记录，即使是标记删除的记录，InnoDB仍会查找聚簇索引。
 
+## InnoDB的架构
+
+下面这张图展示了InnoDB存储引擎的内存和磁盘结构更多关于该架构的信息详见[17.5章节， “InnoDB In-Memory Structure”](https://dev.mysql.com/doc/refman/8.4/en/innodb-in-memory-structures.html)和[17.6章节， “InnoDB On-Disk Structure”](https://dev.mysql.com/doc/refman/8.4/en/innodb-on-disk-structures.html)。
+
+![InnoDB架构图](./img/InnoDB_Architecture.png)
