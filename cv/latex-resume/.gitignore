@@ -1,0 +1,9 @@
+build/
+resume.pdf
+resume.synctex.gz
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.xdv

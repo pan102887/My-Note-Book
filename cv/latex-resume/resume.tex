@@ -1,0 +1,103 @@
+% !TEX program = xelatex
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[a4paper,left=1.45cm,right=1.45cm,top=1.15cm,bottom=1.05cm]{geometry}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+
+% macOS 自带字体。若在其他系统编译，可替换成 Noto Sans CJK SC。
+\setmainfont{Helvetica Neue}
+\setsansfont{Helvetica Neue}
+\setCJKmainfont{Hiragino Sans GB}
+\setCJKsansfont{Hiragino Sans GB}
+
+\definecolor{Accent}{HTML}{155E75}
+\definecolor{Heading}{HTML}{17212B}
+\definecolor{Muted}{HTML}{59636E}
+\definecolor{Rule}{HTML}{BCD1D8}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\tabcolsep}{0pt}
+\linespread{0.98}
+\AtBeginDocument{\fontsize{10.1pt}{14.5pt}\selectfont}
+
+\titleformat{\section}
+  {\Large\bfseries\color{Heading}}
+  {}{0pt}{}
+  [\vspace{1.5pt}\color{Rule}\titlerule]
+\titlespacing*{\section}{0pt}{9.5pt}{5.5pt}
+
+\setlist[itemize]{
+  leftmargin=1.35em,
+  label=\textcolor{Accent}{\raisebox{0.15ex}{\scriptsize\textbullet}},
+  itemsep=1.3pt,
+  topsep=2.0pt,
+  parsep=0pt,
+  partopsep=0pt
+}
+
+% ===== 常用字段：调整简历时优先修改这里 =====
+\newcommand{\ResumeName}{潘少峰}
+\newcommand{\ResumePhone}{13312834541}
+\newcommand{\ResumeEmail}{pan102887@gmail.com}
+\newcommand{\ResumeTarget}{Java 后端开发工程师}
+\newcommand{\ResumeCity}{深圳}
+
+% 是否显示头像：改成 \showphotofalse 即可隐藏。
+\newif\ifshowphoto
+\showphototrue
+
+\newcommand{\contactsep}{\hspace{0.55em}\textcolor{Rule}{|}\hspace{0.55em}}
+
+\newcommand{\resumeheader}{%
+  \ifshowphoto
+    \begin{minipage}[c]{0.78\textwidth}
+        {\fontsize{25pt}{28pt}\selectfont\bfseries\color{Heading}\ResumeName}\par
+        \vspace{3pt}
+        {\color{Muted}男 · 28 岁\contactsep 5 年工作经验\contactsep \ResumeCity}\par
+        \vspace{1.5pt}
+        {\color{Muted}\ResumePhone\contactsep
+          \href{mailto:\ResumeEmail}{\ResumeEmail}\contactsep 求职方向：\ResumeTarget}
+    \end{minipage}\hfill
+    \begin{minipage}[c]{0.18\textwidth}
+      \raggedleft
+      \includegraphics[width=2.22cm,height=2.22cm,keepaspectratio]{assets/photo.png}
+    \end{minipage}
+  \else
+    {\fontsize{25pt}{28pt}\selectfont\bfseries\color{Heading}\ResumeName}\par
+    \vspace{3pt}
+    {\color{Muted}男 · 28 岁\contactsep 5 年工作经验\contactsep \ResumeCity}\par
+    {\color{Muted}\ResumePhone\contactsep
+      \href{mailto:\ResumeEmail}{\ResumeEmail}\contactsep 求职方向：\ResumeTarget}
+  \fi
+  \vspace{2pt}
+}
+
+% 公司/项目/学校条目标题。
+\newcommand{\entry}[4]{%
+  \begin{tabularx}{\textwidth}{@{}X r@{}}
+    \textbf{\color{Heading}#1}\if\relax\detokenize{#2}\relax\else
+      \quad {\color{Muted}#2}\fi
+    & {\color{Muted}#3}\\[-1pt]
+    \multicolumn{2}{@{}l@{}}{\color{Muted}#4}
+  \end{tabularx}
+  \vspace{1pt}
+}
+
+\begin{document}
+\resumeheader
+\input{sections/summary}
+\input{sections/experience}
+\input{sections/projects}
+\input{sections/education}
+\end{document}
